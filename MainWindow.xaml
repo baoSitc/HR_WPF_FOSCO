@@ -1,0 +1,51 @@
+﻿<Window x:Class="HR_WPF_FOSCO.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HR_WPF_FOSCO"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- SIDEBAR -->
+        <StackPanel Background="#2C3E50">
+
+            <TextBlock Text="HR SYSTEM"
+                       Foreground="White"
+                       FontSize="20"
+                       Margin="10"/>
+
+            <Button Content="Đơn vị" Click="BtnDonVi_Click" Margin="5"/>
+            <Button Content="Nhân sự" Click="BtnNhanSu_Click" Margin="5"/>
+            <Button Content="Hợp đồng" Click="BtnHopDong_Click" Margin="5"/>
+            <Button Content="Người phụ thuộc" Click="BtnNguoiPT_Click" Margin="5"/>
+            <Button Content="Bảng lương" Click="BtnLuong_Click" Margin="5"/>
+        </StackPanel>
+
+        <!-- MAIN -->
+        <Grid Grid.Column="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- HEADER -->
+            <Border Background="#34495E">
+                <TextBlock Text="Welcome HRM"
+                           Foreground="White"
+                           VerticalAlignment="Center"
+                           Margin="10"/>
+            </Border>
+
+            <!-- CONTENT -->
+            <Frame x:Name="MainFrame" Grid.Row="1"/>
+
+        </Grid>
+    </Grid>
+</Window>
