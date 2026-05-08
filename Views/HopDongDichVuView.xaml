@@ -6,7 +6,332 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d">
 
-    <Grid Background="#F5F5F5">
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="50"/>
+
+            <RowDefinition Height="250"/>
+
+            <RowDefinition Height="*"/>
+
+            <RowDefinition Height="60"/>
+
+        </Grid.RowDefinitions>
+
+        <!-- SEARCH -->
+
+        <Border Grid.Row="0"
+                Background="#ECECEC"
+                CornerRadius="5"
+                Padding="10">
+
+            <StackPanel Orientation="Horizontal">
+
+                <TextBlock Text="Tìm kiếm:"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0"/>
+
+                <TextBox Width="250"
+                         Height="30"
+                         TextChanged="txtSearch_TextChanged" x:Name="txtSearch"/>
+
+            </StackPanel>
+
+        </Border>
+
+        <!-- GRID -->
+
+        <DataGrid Grid.Row="1"
+                  Margin="0,10,0,10"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding HopDongDichVus}"
+                  SelectedItem="{Binding SelectedHopDongDichVu, Mode=TwoWay}"
+
+                  CanUserAddRows="False"
+                  IsReadOnly="True"
+
+                  FrozenColumnCount="2"
+
+                  EnableRowVirtualization="True"
+                  EnableColumnVirtualization="True">
+
+            <DataGrid.Columns>
+
+                <DataGridTextColumn Header="Số HĐ"
+                                    Binding="{Binding SoHopDong}"
+                                    Width="120"/>
+
+                <DataGridTextColumn Header="Tên HĐ"
+                                    Binding="{Binding TenHopDong}"
+                                    Width="200"/>
+
+                <DataGridTextColumn Header="Đơn vị"
+                                    Binding="{Binding DonVi.TenDonVi}"
+                                    Width="250"/>
+
+                <DataGridTextColumn Header="Ngày ký"
+                                    Binding="{Binding NgayKy,
+                                    StringFormat=dd/MM/yyyy}"
+                                    Width="120"/>
+
+                <DataGridTextColumn Header="Từ ngày"
+                                    Binding="{Binding TuNgay,
+                                    StringFormat=dd/MM/yyyy}"
+                                    Width="120"/>
+
+                <DataGridTextColumn Header="Đến ngày"
+                                    Binding="{Binding DenNgay,
+                                    StringFormat=dd/MM/yyyy}"
+                                    Width="120"/>
+
+                <DataGridTextColumn Header="Loại lương"
+                                    Binding="{Binding LoaiLuong}"
+                                    Width="100"/>
+
+                <DataGridTextColumn Header="Loại phí"
+                                    Binding="{Binding LoaiTinhPhi}"
+                                    Width="100"/>
+
+                <DataGridTextColumn Header="Tỷ lệ phí"
+                                    Binding="{Binding TyLePhi}"
+                                    Width="100"/>
+
+                <DataGridTextColumn Header="Phí cố định"
+                                    Binding="{Binding PhiCoDinh,
+                                    StringFormat=N0}"
+                                    Width="120"/>
+
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+        <!-- FORM -->
+
+        <Border Grid.Row="2"
+                BorderBrush="#DADADA"
+                BorderThickness="1"
+                CornerRadius="5"
+                Padding="15">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="150"/>
+
+                    <ColumnDefinition Width="*"/>
+
+                    <ColumnDefinition Width="150"/>
+
+                    <ColumnDefinition Width="*"/>
+
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="100"/>
+
+                </Grid.RowDefinitions>
+
+                <!-- ĐƠN VỊ -->
+
+                <TextBlock Text="Đơn vị:"
+                           VerticalAlignment="Center"/>
+
+                <ComboBox Grid.Column="1"
+                          Height="30"
+
+                          ItemsSource="{Binding DonVis}"
+
+                          DisplayMemberPath="TenDonVi"
+
+                          SelectedValuePath="ID_DonVi"
+
+                          SelectedValue="{Binding SelectedHopDongDichVu.ID_DonVi,
+                          Mode=TwoWay}"/>
+
+                <!-- SỐ HĐ -->
+
+                <TextBlock Grid.Row="0"
+                           Grid.Column="2"
+                           Text="Số hợp đồng:"
+                           VerticalAlignment="Center"/>
+
+                <TextBox Grid.Row="0"
+                         Grid.Column="3"
+                         Height="30"
+                         Text="{Binding SelectedHopDongDichVu.SoHopDong,
+                         Mode=TwoWay}"/>
+
+                <!-- TÊN HĐ -->
+
+                <TextBlock Grid.Row="1"
+                           Text="Tên hợp đồng:"
+                           VerticalAlignment="Center"/>
+
+                <TextBox Grid.Row="1"
+                         Grid.Column="1"
+                         Height="30"
+                         Text="{Binding SelectedHopDongDichVu.TenHopDong,
+                         Mode=TwoWay}"/>
+
+                <!-- NGÀY KÝ -->
+
+                <TextBlock Grid.Row="1"
+                           Grid.Column="2"
+                           Text="Ngày ký:"
+                           VerticalAlignment="Center"/>
+
+                <DatePicker Grid.Row="1"
+                            Grid.Column="3"
+                            SelectedDate="{Binding SelectedHopDongDichVu.NgayKy,
+                            Mode=TwoWay}"/>
+
+                <!-- TỪ NGÀY -->
+
+                <TextBlock Grid.Row="2"
+                           Text="Từ ngày:"
+                           VerticalAlignment="Center"/>
+
+                <DatePicker Grid.Row="2"
+                            Grid.Column="1"
+                            SelectedDate="{Binding SelectedHopDongDichVu.TuNgay,
+                            Mode=TwoWay}"/>
+
+                <!-- ĐẾN NGÀY -->
+
+                <TextBlock Grid.Row="2"
+                           Grid.Column="2"
+                           Text="Đến ngày:"
+                           VerticalAlignment="Center"/>
+
+                <DatePicker Grid.Row="2"
+                            Grid.Column="3"
+                            SelectedDate="{Binding SelectedHopDongDichVu.DenNgay,
+                            Mode=TwoWay}"/>
+
+                <!-- LOẠI LƯƠNG -->
+
+                <TextBlock Grid.Row="3"
+                           Text="Loại lương:"
+                           VerticalAlignment="Center"/>
+
+                <ComboBox Grid.Row="3"
+                          Grid.Column="1"
+                          Height="30"
+                          SelectedItem="{Binding SelectedHopDongDichVu.LoaiLuong}">
+
+                    <ComboBoxItem Content="NET"/>
+
+                    <ComboBoxItem Content="GROSS"/>
+
+                </ComboBox>
+
+                <!-- LOẠI PHÍ -->
+
+                <TextBlock Grid.Row="3"
+                           Grid.Column="2"
+                           Text="Loại phí:"
+                           VerticalAlignment="Center"/>
+
+                <ComboBox Grid.Row="3"
+                          Grid.Column="3"
+                          Height="30"
+                          SelectedItem="{Binding SelectedHopDongDichVu.LoaiTinhPhi}">
+
+                    <ComboBoxItem Content="%"/>
+
+                    <ComboBoxItem Content="FIX"/>
+
+                </ComboBox>
+
+                <!-- TỶ LỆ PHÍ -->
+
+                <TextBlock Grid.Row="4"
+                           Text="Tỷ lệ phí:"
+                           VerticalAlignment="Center"/>
+
+                <TextBox Grid.Row="4"
+                         Grid.Column="1"
+                         Height="30"
+                         Text="{Binding SelectedHopDongDichVu.TyLePhi,
+                         Mode=TwoWay}"/>
+
+                <!-- PHÍ CỐ ĐỊNH -->
+
+                <TextBlock Grid.Row="4"
+                           Grid.Column="2"
+                           Text="Phí cố định:"
+                           VerticalAlignment="Center"/>
+
+                <TextBox Grid.Row="4"
+                         Grid.Column="3"
+                         Height="30"
+                         Text="{Binding SelectedHopDongDichVu.PhiCoDinh,
+                         Mode=TwoWay}"/>
+
+                <!-- GHI CHÚ -->
+
+                <TextBlock Grid.Row="5"
+                           Text="Ghi chú:"
+                           VerticalAlignment="Top"/>
+
+                <TextBox Grid.Row="5"
+                         Grid.Column="1"
+                         Grid.ColumnSpan="3"
+
+                         AcceptsReturn="True"
+
+                         TextWrapping="Wrap"
+
+                         VerticalScrollBarVisibility="Auto"
+
+                         Text="{Binding SelectedHopDongDichVu.GhiChu,
+                         Mode=TwoWay}"/>
+
+            </Grid>
+
+        </Border>
+
+        <!-- BUTTON -->
+
+        <StackPanel Grid.Row="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,10,0,0">
+
+            <Button Content="Thêm"
+                    Width="100"
+                    Height="35"
+                    Margin="5"
+                    Click="BtnAdd_Click"/>
+
+            <Button Content="Sửa"
+                    Width="100"
+                    Height="35"
+                    Margin="5"
+                    Click="BtnUpdate_Click"/>
+
+            <Button Content="Xóa"
+                    Width="100"
+                    Height="35"
+                    Margin="5"
+                    Click="BtnDelete_Click"/>
+
+            <Button Content="Làm mới"
+                    Width="100"
+                    Height="35"
+                    Margin="5"
+                    Click="BtnClear_Click"/>
+
+        </StackPanel>
 
     </Grid>
 

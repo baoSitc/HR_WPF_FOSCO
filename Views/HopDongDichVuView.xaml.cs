@@ -47,7 +47,7 @@ namespace HR_WPF_FOSCO.Views
         }
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-           // vm.SearchHopDongDichVu(txtSearch.Text);
+            vm.SearchHopDongDichVu(txtSearch.Text);
         }
         private void BtnUploadPDF_Click(object sender,
                                  RoutedEventArgs e)
