@@ -1,0 +1,217 @@
+﻿<UserControl x:Class="HR_WPF_FOSCO.Views.DonViView" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HR_WPF_FOSCO.Views"
+              xmlns:conv="clr-namespace:HR_WPF_FOSCO.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <conv:BooleanTrangThaiConverter x:Key="TrangThaiConverter"/>
+        <conv:STTConverter x:Key="STTConverter"/>
+    </UserControl.Resources>
+
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="220"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- FORM -->
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+
+
+            <TextBlock Text="Mã đơn vị:" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1"
+                     Text="{Binding SelectedDonvi.MaDonVi}"/>
+
+            <TextBlock Grid.Row="0"
+            Grid.Column="2" Padding="5"
+            Text="Mã Số Thuế:"
+            VerticalAlignment="Center"/>
+
+            <TextBox Grid.Row="0"
+          Grid.Column="3"
+          Text="{Binding SelectedDonvi.MaSoThue}"/>
+
+            <TextBlock Grid.Row="0"
+            Grid.Column="4" Padding="5"
+            Text="Điện thoại:"
+            VerticalAlignment="Center"/>
+
+            <TextBox Grid.Row="0"
+          Grid.Column="5"
+          Text="{Binding SelectedDonvi.SoDienThoai}"/>
+
+            <!--Dòng 1-->
+
+            <TextBlock Grid.Row="1"
+                       Text="Tên đơn vị:"
+                       VerticalAlignment="Center"/>
+
+            <TextBox Grid.Row="1"
+                     Grid.Column="1" TextWrapping="Wrap"
+                     Text="{Binding SelectedDonvi.TenDonVi}"/>
+
+            <TextBlock Grid.Row="1"
+      Grid.Column="2" Padding="5"
+      Text="Mã BHXH:"
+      VerticalAlignment="Center"/>
+
+            <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding SelectedDonvi.MaBHXH}"/>
+
+            <TextBlock Grid.Row="1"  Grid.Column="4" Padding="5" Text="Mã Nước Ngoài:" VerticalAlignment="Center"/>
+
+            <TextBox Grid.Row="1" Grid.Column="5" Text="{Binding SelectedDonvi.MaBHXH_NN}"/>
+
+
+            <!--Dòng 2-->
+            <TextBlock Grid.Row="2"
+                       Text="Địa chỉ:"
+                       VerticalAlignment="Center"/>
+
+            <TextBox Grid.Row="2"
+                     Grid.Column="1" TextWrapping="Wrap"                   
+                     Text="{Binding SelectedDonvi.DiaChi}"/>
+
+            <TextBlock Grid.Row="2" Grid.Column="2" 
+            Text="Loại Dịch Vụ:" Padding="5"
+            VerticalAlignment="Center"/>
+
+            <TextBox Grid.Row="2"
+          Grid.Column="3"          
+          Text="{Binding SelectedDonvi.LoaiLuong}"/>
+            <TextBlock Grid.Row="2" Grid.Column="4" Padding="5"  Text="Dịch Vụ Phí:"  VerticalAlignment="Center"/>
+            <TextBox Grid.Row="2" Grid.Column="5"          Text="{Binding SelectedDonvi.DichVuPhi}"/>
+
+            <TextBlock Grid.Row="3" Grid.Column="0"  Text="Nơi nộp BHXH:"  VerticalAlignment="Center" Background="#4CAF50"/>
+            <TextBox Grid.Row="3" Grid.Column="1"          Text="{Binding SelectedDonvi.NoiNopBHXH}"/>
+            <TextBlock Grid.Row="3" Grid.Column="2" Padding="5" Text="Số Tài Khoản:"  VerticalAlignment="Center" Background="#4CAF50"/>
+            <TextBox Grid.Row="3" Grid.Column="3"          Text="{Binding SelectedDonvi.SoTaiKhoanNopBHXH}"/>
+            <TextBlock Grid.Row="3" Grid.Column="4" Padding="5" Text="Ngân Hàng BHXH:"  VerticalAlignment="Center" Background="#4CAF50"/>
+            <TextBox Grid.Row="3" Grid.Column="5"          Text="{Binding SelectedDonvi.NganHangNopBHXH}"/>
+
+            <TextBlock Grid.Row="4" Grid.Column="0"  Text="Nơi nộp Thuế:"  VerticalAlignment="Center" Background="Turquoise"/>
+            <TextBox Grid.Row="4" Grid.Column="1"          Text="{Binding SelectedDonvi.NoiNopThue}"/>
+            <TextBlock Grid.Row="4" Grid.Column="2" Padding="5" Text="Số Tài Khoản:"  VerticalAlignment="Center" Background="Turquoise"/>
+            <TextBox Grid.Row="4" Grid.Column="3"          Text="{Binding SelectedDonvi.SoTaiKhoanNopThue}"/>
+            <TextBlock Grid.Row="4" Grid.Column="4" Padding="5" Text="Ngân Hàng:"  VerticalAlignment="Center" Background="Turquoise"/>
+            <TextBox Grid.Row="4" Grid.Column="5"          Text="{Binding SelectedDonvi.NganHangNopThue}"/>
+
+
+            <!-- BUTTON -->
+            <StackPanel Grid.Row="5"
+                        Grid.ColumnSpan="6" 
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+
+                <Button Content="Thêm" 
+                        Width="100"
+                        Margin="5"  Background="#4CAF50"
+        Foreground="White"
+        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Click="BtnAdd_Click"/>
+
+                <Button Content="Sửa"
+                        Width="100"
+                        Margin="5"
+                        Click="BtnUpdate_Click"/>
+
+                <Button Content="Xóa"
+                        Width="100"
+                        Margin="5"  Background="#F44336"
+        Foreground="White"
+        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Click="BtnDelete_Click"/>
+            </StackPanel>
+
+        </Grid>
+
+        <!-- GRID -->
+        <DataGrid Grid.Row="1"
+                  Margin="0,10,0,0"
+                  ItemsSource="{Binding DonVis}"
+                  SelectedItem="{Binding SelectedDonvi,Mode=TwoWay}"
+                  
+                  AutoGenerateColumns="False" FrozenColumnCount="2"
+                   EnableRowVirtualization="True"
+    EnableColumnVirtualization="True"
+    ScrollViewer.CanContentScroll="True"
+    VirtualizingPanel.ScrollUnit="Pixel"
+                  AlternationCount="1000000">
+
+
+
+            <DataGrid.Columns>
+
+
+
+                <DataGridTextColumn Header="STT"
+                     Binding="{Binding Stt}"/>
+                <DataGridTextColumn Header="Mã"
+                                    Binding="{Binding MaDonVi}"/>
+
+                <DataGridTextColumn Header="Tên đơn vị"
+                                    Binding="{Binding TenDonVi}"/>
+
+                <DataGridTextColumn Header="MST"
+                                    Binding="{Binding MaSoThue}"/>
+
+                <DataGridTextColumn Header="Điện thoại"
+                                    Binding="{Binding SoDienThoai}"/>
+                <DataGridTextColumn Header="Mã BHXH"
+                     Binding="{Binding MaBHXH}"/>
+                <DataGridTextColumn Header="Mã BHXH_NN"
+     Binding="{Binding MaBHXH_NN}"/>
+                <DataGridTextColumn Header="Loại Dịch Vụ"
+Binding="{Binding LoaiLuong}"/>
+                <!--nộp BHXH-->
+                <DataGridTextColumn Header="Nơi Nộp BHXH"
+Binding="{Binding NoiNopBHXH}"/>
+
+                <DataGridTextColumn Header="Số Tài Khoản"
+Binding="{Binding SoTaiKhoanNopBHXH}"/>
+
+                <DataGridTextColumn Header="Ngân Hàng"
+Binding="{Binding NganHangNopBHXH}"/>
+                <!--nộp thuế-->
+                <DataGridTextColumn Header="Nơi Nộp Thuế"
+Binding="{Binding NoiNopThue}"/>
+                <DataGridTextColumn Header="Số Tài Khoản"
+Binding="{Binding SoTaiKhoanNopThue}"/>
+                <DataGridTextColumn Header="Ngân Hàng"
+Binding="{Binding NganHangNopThue}"/>
+
+                <DataGridTextColumn Header="Trạng Thái"
+Binding="{Binding TrangThai, Converter={StaticResource TrangThaiConverter}}"/>
+
+
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+
+
+    </Grid>
+</UserControl>

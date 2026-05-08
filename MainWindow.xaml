@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HR_WPF_FOSCO"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:HR_WPF_FOSCO"        
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -43,8 +44,11 @@
                            Margin="10"/>
             </Border>
 
-            <!-- CONTENT -->
-            <Frame x:Name="MainFrame" Grid.Row="1"/>
+            <!-- TABCONTROL -->
+            <TabControl x:Name="MainTabControl" 
+                        Grid.Row="1">
+
+            </TabControl>
 
         </Grid>
     </Grid>

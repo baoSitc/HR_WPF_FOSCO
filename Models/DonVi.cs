@@ -11,7 +11,7 @@ namespace HR_WPF_FOSCO.Models
     {
         [Key]
         public int ID_DonVi { get; set; }
-        public string MaDonVi { get; set; } = string.Empty;
+        public string MaDonVi { get; set; }=string.Empty;
         public string TenDonVi { get; set; } = string.Empty;
 		public string? MaSoThue { get; set; }
         public string? DiaChi   {            get; set;        }
@@ -43,9 +43,10 @@ namespace HR_WPF_FOSCO.Models
         public String? NoiNopThue { get; set; } = null!;
         public String? NganHangNopThue { get; set; } = null!; 
         public String? SoTaiKhoanNopThue { get;set; }
+        public int?Stt { get; set; }
 
 
 
-       
+
     }
 }

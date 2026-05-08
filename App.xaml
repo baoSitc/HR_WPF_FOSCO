@@ -1,9 +1,26 @@
 ﻿<Application x:Class="HR_WPF_FOSCO.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:HR_WPF_FOSCO"
-             StartupUri="MainWindow.xaml">
+             xmlns:local="clr-namespace:HR_WPF_FOSCO" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:conv="clr-namespace:HR_WPF_FOSCO.Converters"
+             StartupUri="MainWindow.xaml" >
     <Application.Resources>
-         
+
+        <ResourceDictionary>
+            <conv:STTConverter x:Key="STTConverter"/>
+
+            <ResourceDictionary.MergedDictionaries>
+
+                <materialDesign:BundledTheme
+                    BaseTheme="Light"
+                    PrimaryColor="Blue"
+                    SecondaryColor="DeepOrange" />
+
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+
     </Application.Resources>
 </Application>

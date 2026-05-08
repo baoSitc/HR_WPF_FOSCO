@@ -10,6 +10,7 @@ namespace HR_WPF_FOSCO.Services
     {
         public DbSet<DonVi> DonVis { get; set; }
         public DbSet<HopDongDichVu> HopDongDichVus { get; set; }
+        public DbSet<HopDongDinhKem> HopDongDinhKems { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
            
