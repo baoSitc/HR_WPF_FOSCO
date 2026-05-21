@@ -11,7 +11,7 @@
         <Grid.RowDefinitions>
 
             <!-- SEARCH -->
-            <RowDefinition Height="70"/>
+            <RowDefinition Height="80"/>
 
             <!-- GRID -->
             <RowDefinition Height="250"/>
@@ -31,30 +31,137 @@
         <!-- SEARCH -->
         <!-- ===================================================== -->
 
-        <Border Grid.Row="0"
-                Margin="5"
-                Padding="5"
-                Background="White"
-                CornerRadius="8">
+        <Grid>
 
-            <DockPanel>
+            <Grid.ColumnDefinitions>
 
+                <ColumnDefinition Width="2*"/>
+
+                <ColumnDefinition Width="*"/>
+
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Grid.Column="0">
                 <materialDesign:PackIcon Kind="Magnify"
-                                         Width="24"
-                                         Height="20"
-                                         VerticalAlignment="Center"
-                                         Margin="0,0,10,0"/>
+                             Width="24"
+                             Height="24"
+                             Margin="0,0,10,0"
+                             VerticalAlignment="Center"/>
 
-                <TextBox x:Name="txtSearch"
-                         Height="25"
-                         FontSize="14"
-                         VerticalContentAlignment="Center"
-                         materialDesign:HintAssist.Hint="Tìm kiếm hợp đồng..."
-                         TextChanged="txtSearch_TextChanged"/>
-
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                 x:Name="txtSearch" 
+         Height="40"
+         FontSize="14"
+       
+         materialDesign:HintAssist.Hint="Tìm kiếm hợp đồng..."
+         TextChanged="txtSearch_TextChanged"/>
             </DockPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" 
+             HorizontalAlignment="Right">
 
-        </Border>
+                    <!-- THÊM -->
+
+                    <Button Width="120"
+ Height="40"
+ Margin="5"
+ Click="BtnAdd_Click">
+
+                        <Button.Content>
+
+                            <StackPanel Orientation="Horizontal" >
+
+                                <materialDesign:PackIcon Kind="Plus"
+                              Width="18"
+                              Height="18"
+                              Margin="0,0,5,0"/>
+
+                                <TextBlock Text="Thêm"/>
+
+                            </StackPanel>
+
+                        </Button.Content>
+
+                    </Button>
+                    <!-- SỬA -->
+
+                    <Button Width="120"
+Height="40"
+Margin="5"
+Click="BtnUpdate_Click">
+
+                        <Button.Content>
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon Kind="Pencil"
+                             Width="18"
+                             Height="18"
+                             Margin="0,0,5,0"/>
+
+                                <TextBlock Text="Sửa"/>
+
+                            </StackPanel>
+
+                        </Button.Content>
+
+                    </Button>
+
+
+
+                    <!-- XÓA -->
+
+                    <Button Width="120"
+             Height="40"
+             Margin="5"
+             Click="BtnDelete_Click">
+
+                        <Button.Content>
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon Kind="Delete"
+                                          Width="18"
+                                          Height="18"
+                                          Margin="0,0,5,0"/>
+
+                                <TextBlock Text="Xóa"/>
+
+                            </StackPanel>
+
+                        </Button.Content>
+
+                    </Button>
+
+                    <!-- LÀM MỚI -->
+
+                    <Button Width="120"
+             Height="40"
+             Margin="5"
+             Click="BtnClear_Click">
+
+                        <Button.Content>
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon Kind="Refresh"
+                                          Width="18"
+                                          Height="18"
+                                          Margin="0,0,5,0"/>
+
+                                <TextBlock Text="Làm mới"/>
+
+                            </StackPanel>
+
+                        </Button.Content>
+
+                    </Button>
+
+                </StackPanel>
+
+
+        
+
+        </Grid>
 
         <!-- GRID -->
         <GroupBox Grid.Row="1"
@@ -462,106 +569,7 @@
                 CornerRadius="8"
                 Padding="10">
 
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Right">
-
-                <!-- THÊM -->
-
-                <Button Width="120"
-                        Height="40"
-                        Margin="5"
-                        Click="BtnAdd_Click">
-
-                    <Button.Content>
-
-                        <StackPanel Orientation="Horizontal">
-
-                            <materialDesign:PackIcon Kind="Plus"
-                                                     Width="18"
-                                                     Height="18"
-                                                     Margin="0,0,5,0"/>
-
-                            <TextBlock Text="Thêm"/>
-
-                        </StackPanel>
-
-                    </Button.Content>
-
-                </Button>
-
-                <!-- SỬA -->
-
-                <Button Width="120"
-                        Height="40"
-                        Margin="5"
-                        Click="BtnUpdate_Click">
-
-                    <Button.Content>
-
-                        <StackPanel Orientation="Horizontal">
-
-                            <materialDesign:PackIcon Kind="Pencil"
-                                                     Width="18"
-                                                     Height="18"
-                                                     Margin="0,0,5,0"/>
-
-                            <TextBlock Text="Sửa"/>
-
-                        </StackPanel>
-
-                    </Button.Content>
-
-                </Button>
-
-                <!-- XÓA -->
-
-                <Button Width="120"
-                        Height="40"
-                        Margin="5"
-                        Click="BtnDelete_Click">
-
-                    <Button.Content>
-
-                        <StackPanel Orientation="Horizontal">
-
-                            <materialDesign:PackIcon Kind="Delete"
-                                                     Width="18"
-                                                     Height="18"
-                                                     Margin="0,0,5,0"/>
-
-                            <TextBlock Text="Xóa"/>
-
-                        </StackPanel>
-
-                    </Button.Content>
-
-                </Button>
-
-                <!-- LÀM MỚI -->
-
-                <Button Width="120"
-                        Height="40"
-                        Margin="5"
-                        Click="BtnClear_Click">
-
-                    <Button.Content>
-
-                        <StackPanel Orientation="Horizontal">
-
-                            <materialDesign:PackIcon Kind="Refresh"
-                                                     Width="18"
-                                                     Height="18"
-                                                     Margin="0,0,5,0"/>
-
-                            <TextBlock Text="Làm mới"/>
-
-                        </StackPanel>
-
-                    </Button.Content>
-
-                </Button>
-
-            </StackPanel>
+           
 
         </Border>
 

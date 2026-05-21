@@ -8,6 +8,7 @@
               xmlns:conv="clr-namespace:HR_WPF_FOSCO.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
     <UserControl.Resources>
         <conv:BooleanTrangThaiConverter x:Key="TrangThaiConverter"/>
         <conv:STTConverter x:Key="STTConverter"/>
