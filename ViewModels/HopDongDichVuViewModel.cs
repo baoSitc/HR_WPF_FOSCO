@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows.Data;
 using Windows.Data;
+using Windows.Data.Pdf;
 
 namespace HR_WPF_FOSCO.ViewModels
 {
@@ -137,6 +138,7 @@ namespace HR_WPF_FOSCO.ViewModels
         public void ClearForm()
         {
             SelectedHopDongDichVu = new Models.HopDongDichVu();
+          
             OnPropertyChanged(nameof(SelectedHopDongDichVu));
         }
         public void SearchHopDongDichVu(string keyword)

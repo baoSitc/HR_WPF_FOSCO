@@ -44,6 +44,8 @@ namespace HR_WPF_FOSCO.Views
         private void BtnClear_Click(object sender, RoutedEventArgs e)
         {
             vm.ClearForm();
+            //xoa trang vung pdfviewer
+            PdfViewer.Navigate("about:blank");
         }
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -97,14 +99,17 @@ namespace HR_WPF_FOSCO.Views
                 file.TenFile = fileName;
 
                 file.DuongDanFile = destPath;
+                file.LoaiFile="pdf";
+                
 
                 db.HopDongDinhKems.Add(file);
+                
 
                 db.SaveChanges();
 
                 MessageBox.Show("Upload thành công.");
 
-               // PdfViewer.Navigate(destPath);
+                PdfViewer.Navigate(destPath);
             }
         }
         private void BtnOpenPDF_Click(object sender,
@@ -118,8 +123,7 @@ namespace HR_WPF_FOSCO.Views
             var file = db.HopDongDinhKems
                          .Where(x =>
                              x.ID_HopDong ==
-                             vm.SelectedHopDongDichVu.ID_HopDong)
-
+                             vm.SelectedHopDongDichVu.ID_HopDong) 
                          .OrderByDescending(x => x.ID_File)
 
                          .FirstOrDefault();
@@ -133,7 +137,7 @@ namespace HR_WPF_FOSCO.Views
 
             if (File.Exists(file.DuongDanFile))
             {
-               // PdfViewer.Navigate(file.DuongDanFile);
+                PdfViewer.Navigate(file.DuongDanFile);
             }
             else
             {

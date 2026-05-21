@@ -6,44 +6,65 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d">
 
-    <Grid Margin="10">
+    <Grid Background="#F5F5F5">
 
         <Grid.RowDefinitions>
 
-            <RowDefinition Height="50"/>
+            <!-- SEARCH -->
+            <RowDefinition Height="70"/>
 
+            <!-- GRID -->
             <RowDefinition Height="250"/>
 
+            <!-- FORM -->
             <RowDefinition Height="*"/>
 
-            <RowDefinition Height="60"/>
+            <!-- PDF -->
+            <RowDefinition Height="250"/>
+
+            <!-- BUTTON -->
+            <RowDefinition Height="70"/>
 
         </Grid.RowDefinitions>
 
+        <!-- ===================================================== -->
         <!-- SEARCH -->
+        <!-- ===================================================== -->
 
         <Border Grid.Row="0"
-                Background="#ECECEC"
-                CornerRadius="5"
-                Padding="10">
+                Margin="5"
+                Padding="5"
+                Background="White"
+                CornerRadius="8">
 
-            <StackPanel Orientation="Horizontal">
+            <DockPanel>
 
-                <TextBlock Text="Tìm kiếm:"
-                           VerticalAlignment="Center"
-                           Margin="0,0,10,0"/>
+                <materialDesign:PackIcon Kind="Magnify"
+                                         Width="24"
+                                         Height="20"
+                                         VerticalAlignment="Center"
+                                         Margin="0,0,10,0"/>
 
-                <TextBox Width="250"
-                         Height="30"
-                         TextChanged="txtSearch_TextChanged" x:Name="txtSearch"/>
+                <TextBox x:Name="txtSearch"
+                         Height="25"
+                         FontSize="14"
+                         VerticalContentAlignment="Center"
+                         materialDesign:HintAssist.Hint="Tìm kiếm hợp đồng..."
+                         TextChanged="txtSearch_TextChanged"/>
 
-            </StackPanel>
+            </DockPanel>
 
         </Border>
 
         <!-- GRID -->
+        <Border Grid.Row="1"
+                Margin="10,0,10,10"
+                Background="White"
+                CornerRadius="8"
+                Padding="10">
 
-        <DataGrid Grid.Row="1"
+            <DataGrid x:Name="dgHopDong"
+                Grid.Row="1"
                   Margin="0,10,0,10"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding HopDongDichVus}"
@@ -52,60 +73,69 @@
                   CanUserAddRows="False"
                   IsReadOnly="True"
 
-                  FrozenColumnCount="2"
+                  SelectionMode="Single"
 
-                  EnableRowVirtualization="True"
-                  EnableColumnVirtualization="True">
+                      FrozenColumnCount="2"
 
-            <DataGrid.Columns>
+                      EnableRowVirtualization="True"
 
-                <DataGridTextColumn Header="Số HĐ"
+                      EnableColumnVirtualization="True"
+
+                      HeadersVisibility="Column"
+
+                      GridLinesVisibility="Horizontal">
+
+                <DataGrid.Columns>
+
+
+                    <DataGridTextColumn Header="Số HĐ"
                                     Binding="{Binding SoHopDong}"
                                     Width="120"/>
 
-                <DataGridTextColumn Header="Tên HĐ"
+                    <DataGridTextColumn Header="Tên HĐ"
                                     Binding="{Binding TenHopDong}"
                                     Width="200"/>
 
-                <DataGridTextColumn Header="Đơn vị"
+                    <DataGridTextColumn Header="Đơn vị"
                                     Binding="{Binding DonVi.TenDonVi}"
                                     Width="250"/>
 
-                <DataGridTextColumn Header="Ngày ký"
+                    <DataGridTextColumn Header="Ngày ký"
                                     Binding="{Binding NgayKy,
                                     StringFormat=dd/MM/yyyy}"
                                     Width="120"/>
 
-                <DataGridTextColumn Header="Từ ngày"
+                    <DataGridTextColumn Header="Từ ngày"
                                     Binding="{Binding TuNgay,
                                     StringFormat=dd/MM/yyyy}"
                                     Width="120"/>
 
-                <DataGridTextColumn Header="Đến ngày"
+                    <DataGridTextColumn Header="Đến ngày"
                                     Binding="{Binding DenNgay,
                                     StringFormat=dd/MM/yyyy}"
                                     Width="120"/>
 
-                <DataGridTextColumn Header="Loại lương"
+                    <DataGridTextColumn Header="Loại lương"
                                     Binding="{Binding LoaiLuong}"
                                     Width="100"/>
 
-                <DataGridTextColumn Header="Loại phí"
+                    <DataGridTextColumn Header="Loại phí"
                                     Binding="{Binding LoaiTinhPhi}"
                                     Width="100"/>
 
-                <DataGridTextColumn Header="Tỷ lệ phí"
+                    <DataGridTextColumn Header="Tỷ lệ phí"
                                     Binding="{Binding TyLePhi}"
                                     Width="100"/>
 
-                <DataGridTextColumn Header="Phí cố định"
+                    <DataGridTextColumn Header="Phí cố định"
                                     Binding="{Binding PhiCoDinh,
                                     StringFormat=N0}"
                                     Width="120"/>
 
-            </DataGrid.Columns>
+                </DataGrid.Columns>
 
-        </DataGrid>
+            </DataGrid>
+        </Border>
 
         <!-- FORM -->
 
@@ -162,7 +192,7 @@
                 <TextBlock Grid.Row="0"
                            Grid.Column="2"
                            Text="Số hợp đồng:"
-                           VerticalAlignment="Center"/>
+                           VerticalAlignment="Center" FontWeight="SemiBold"/>
 
                 <TextBox Grid.Row="0"
                          Grid.Column="3"
@@ -187,7 +217,7 @@
                 <TextBlock Grid.Row="1"
                            Grid.Column="2"
                            Text="Ngày ký:"
-                           VerticalAlignment="Center"/>
+                           VerticalAlignment="Center" FontWeight="SemiBold"/>
 
                 <DatePicker Grid.Row="1"
                             Grid.Column="3"
@@ -299,39 +329,187 @@
             </Grid>
 
         </Border>
+        <!-- ===================================================== -->
+        <!-- PDF -->
+        <!-- ===================================================== -->
 
+        <Border Grid.Row="3"
+                Margin="10,0,10,10"
+                Background="White"
+                CornerRadius="8"
+                Padding="10">
+
+            <Grid>
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="50"/>
+
+                    <RowDefinition Height="*"/>
+
+                </Grid.RowDefinitions>
+                <!-- TOOLBAR -->
+                <StackPanel Orientation="Horizontal">
+                    <Button Width="130"
+        Height="35"
+        Margin="5"
+        Click="BtnUploadPDF_Click">
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <materialDesign:PackIcon Kind="Upload"
+                                 Width="18"
+                                 Height="18"
+                                 Margin="0,0,5,0"/>
+
+                            <TextBlock Text="Upload PDF"/>
+
+                        </StackPanel>
+
+                    </Button>
+
+                    <Button Width="130"
+                    Height="35"
+                    Margin="5"
+                    Click="BtnOpenPDF_Click"> 
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <materialDesign:PackIcon Kind="FilePdfBox"
+                         Width="18"
+                         Height="18"
+                         Margin="0,0,5,0"/>
+
+                            <TextBlock Text="Mở PDF"/>
+
+                        </StackPanel>
+
+                    </Button>
+
+                </StackPanel>
+                <!-- PDF VIEW -->
+
+                <WebBrowser x:Name="PdfViewer"
+                            Grid.Row="1"/>
+
+
+            </Grid>
+        </Border>
+
+
+
+
+        <!-- ===================================================== -->
         <!-- BUTTON -->
+        <!-- ===================================================== -->
 
-        <StackPanel Grid.Row="3"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    Margin="0,10,0,0">
+        <Border Grid.Row="4"
+                Margin="10,0,10,10"
+                Background="White"
+                CornerRadius="8"
+                Padding="10">
 
-            <Button Content="Thêm"
-                    Width="100"
-                    Height="35"
-                    Margin="5"
-                    Click="BtnAdd_Click"/>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
 
-            <Button Content="Sửa"
-                    Width="100"
-                    Height="35"
-                    Margin="5"
-                    Click="BtnUpdate_Click"/>
+                <!-- THÊM -->
 
-            <Button Content="Xóa"
-                    Width="100"
-                    Height="35"
-                    Margin="5"
-                    Click="BtnDelete_Click"/>
+                <Button Width="120"
+                        Height="40"
+                        Margin="5"
+                        Click="BtnAdd_Click">
 
-            <Button Content="Làm mới"
-                    Width="100"
-                    Height="35"
-                    Margin="5"
-                    Click="BtnClear_Click"/>
+                    <Button.Content>
 
-        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+
+                            <materialDesign:PackIcon Kind="Plus"
+                                                     Width="18"
+                                                     Height="18"
+                                                     Margin="0,0,5,0"/>
+
+                            <TextBlock Text="Thêm"/>
+
+                        </StackPanel>
+
+                    </Button.Content>
+
+                </Button>
+
+                <!-- SỬA -->
+
+                <Button Width="120"
+                        Height="40"
+                        Margin="5"
+                        Click="BtnUpdate_Click">
+
+                    <Button.Content>
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <materialDesign:PackIcon Kind="Pencil"
+                                                     Width="18"
+                                                     Height="18"
+                                                     Margin="0,0,5,0"/>
+
+                            <TextBlock Text="Sửa"/>
+
+                        </StackPanel>
+
+                    </Button.Content>
+
+                </Button>
+
+                <!-- XÓA -->
+
+                <Button Width="120"
+                        Height="40"
+                        Margin="5"
+                        Click="BtnDelete_Click">
+
+                    <Button.Content>
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <materialDesign:PackIcon Kind="Delete"
+                                                     Width="18"
+                                                     Height="18"
+                                                     Margin="0,0,5,0"/>
+
+                            <TextBlock Text="Xóa"/>
+
+                        </StackPanel>
+
+                    </Button.Content>
+
+                </Button>
+
+                <!-- LÀM MỚI -->
+
+                <Button Width="120"
+                        Height="40"
+                        Margin="5"
+                        Click="BtnClear_Click">
+
+                    <Button.Content>
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <materialDesign:PackIcon Kind="Refresh"
+                                                     Width="18"
+                                                     Height="18"
+                                                     Margin="0,0,5,0"/>
+
+                            <TextBlock Text="Làm mới"/>
+
+                        </StackPanel>
+
+                    </Button.Content>
+
+                </Button>
+
+            </StackPanel>
+
+        </Border>
 
     </Grid>
 
