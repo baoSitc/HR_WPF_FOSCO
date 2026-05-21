@@ -20,10 +20,53 @@ namespace HR_WPF_FOSCO.ViewModels
             set
             {
                 _selectedDonvi = value;
-             //   MessageBox.Show(_selectedDonvi?.TenDonVi);
+                //   MessageBox.Show(_selectedDonvi?.TenDonVi);
                 OnPropertyChanged(nameof(SelectedDonvi));
             }
         }
+        private string _tuKhoa;
+
+        public string TuKhoa
+        {
+            get => _tuKhoa;
+            set
+            {
+                _tuKhoa = value;
+
+                OnPropertyChanged(nameof(TuKhoa));
+
+                TimKiem();
+            }
+        }
+        public void TimKiem()
+        {
+            if (string.IsNullOrWhiteSpace(TuKhoa))
+            {
+
+                OnPropertyChanged(nameof(DonVi));
+                return;
+            }
+
+            var data = new AppDbContext().DonVis
+                .Where(x =>
+                    x.TenDonVi.Contains(TuKhoa)
+                ||
+                x.MaDonVi.Contains(TuKhoa)
+                ||
+                x.MaSoThue.Contains(TuKhoa))
+                .ToList();
+
+            DonVis =
+                new ObservableCollection<Models.DonVi>(data);
+            foreach (var donvi in DonVis)
+            {
+                donvi.Stt = DonVis.IndexOf(donvi) + 1;
+
+            }
+            OnPropertyChanged(nameof(DonVis));
+        }
+
+
 
         public DonViViewModel()
         {
