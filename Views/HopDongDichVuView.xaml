@@ -20,10 +20,9 @@
             <RowDefinition Height="*"/>
 
             <!-- PDF -->
-            <RowDefinition Height="250"/>
+            <RowDefinition Height="*"/>
 
-            <!-- BUTTON -->
-            <RowDefinition Height="70"/>
+           
 
         </Grid.RowDefinitions>
 
@@ -193,6 +192,7 @@ Click="BtnUpdate_Click">
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding HopDongDichVus}"
                   SelectedItem="{Binding SelectedHopDongDichVu, Mode=TwoWay}"
+                          SelectionChanged="dgHopDong_SelectionChanged"
 
                   CanUserAddRows="False"
                   IsReadOnly="True"
@@ -476,7 +476,7 @@ Click="BtnUpdate_Click">
         <!-- PDF -->
         <!-- ===================================================== -->
 
-        <GroupBox Grid.Row="3"
+        <GroupBox Grid.Row="3" 
           Margin="10"
           FontWeight="SemiBold">
 
@@ -500,19 +500,37 @@ Click="BtnUpdate_Click">
             CornerRadius="5">
 
                 <Grid>
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="*"/>
+
+                        <ColumnDefinition Width="3*"/>
+
+                    </Grid.ColumnDefinitions>
+
                     <Grid.RowDefinitions>
-
-                        <RowDefinition Height="50"/>
-
                         <RowDefinition Height="*"/>
-
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
+
                     <!-- TOOLBAR -->
-                    <StackPanel Orientation="Horizontal">
-                        <Button Width="130"
-        Height="35"
-        Margin="5"
-        Click="BtnUploadPDF_Click">
+                  
+                        <ComboBox x:Name="cbFiles" Grid.Row="0" 
+              Width="300"
+              Height="35"
+              Margin="5"
+              DisplayMemberPath="TenFile"
+                                  SelectionChanged="cbFiles_SelectionChanged"/>
+
+                        <!-- ===================================================== -->
+                        <!-- BUTTON -->
+                        <!-- ===================================================== -->
+
+                        <Button Width="130" Grid.Row="1"
+                        Height="35"
+                        Margin="5"
+                        Click="BtnUploadPDF_Click">
 
                             <StackPanel Orientation="Horizontal">
 
@@ -544,12 +562,48 @@ Click="BtnUpdate_Click">
                             </StackPanel>
 
                         </Button>
+                        <!-- Download -->
+                        <Button Width="130"
+           Height="35"
+           Margin="5"
+           Click="BtnDownloadFile_Click">
 
-                    </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon Kind="Download"
+                                    Width="18"
+                                    Height="18"
+                                    Margin="0,0,5,0"/>
+
+                                <TextBlock Text="Download PDF"/>
+
+                            </StackPanel>
+                        </Button>
+                        <!-- Delete -->
+                        <Button Width="130"
+           Height="35"
+           Margin="5"
+           Click="BtnDeleteFile_Click">
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon Kind="Delete"
+                                    Width="18"
+                                    Height="18"
+                                    Margin="0,0,5,0"/>
+
+                                <TextBlock Text="Xóa File"/>
+
+                            </StackPanel>
+                        </Button>
+
+
+                    
+                    
                     <!-- PDF VIEW -->
 
                     <WebBrowser x:Name="PdfViewer"
-                            Grid.Row="1"/>
+                            Grid.Column="1"/>
 
 
                 </Grid>
@@ -559,20 +613,8 @@ Click="BtnUpdate_Click">
 
 
 
-        <!-- ===================================================== -->
-        <!-- BUTTON -->
-        <!-- ===================================================== -->
-
-        <Border Grid.Row="4"
-                Margin="10,0,10,10"
-                Background="White"
-                CornerRadius="8"
-                Padding="10">
-
-           
-
-        </Border>
-
+       
+       
     </Grid>
 
 </UserControl>

@@ -99,11 +99,11 @@ namespace HR_WPF_FOSCO.Views
                 file.TenFile = fileName;
 
                 file.DuongDanFile = destPath;
-                file.LoaiFile="pdf";
-                
+                file.LoaiFile = "pdf";
+
 
                 db.HopDongDinhKems.Add(file);
-                
+
 
                 db.SaveChanges();
 
@@ -123,7 +123,7 @@ namespace HR_WPF_FOSCO.Views
             var file = db.HopDongDinhKems
                          .Where(x =>
                              x.ID_HopDong ==
-                             vm.SelectedHopDongDichVu.ID_HopDong) 
+                             vm.SelectedHopDongDichVu.ID_HopDong)
                          .OrderByDescending(x => x.ID_File)
 
                          .FirstOrDefault();
@@ -142,6 +142,69 @@ namespace HR_WPF_FOSCO.Views
             else
             {
                 MessageBox.Show("File không tồn tại.");
+            }
+        }
+        private void LoadFiles()
+        {
+            using var db = new AppDbContext();
+
+            var files = db.HopDongDinhKems
+                .Where(x => x.ID_HopDong ==
+                            vm.SelectedHopDongDichVu.ID_HopDong)
+                .ToList();
+
+            cbFiles.ItemsSource = files;
+        }
+        private void dgHopDong_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            LoadFiles();
+        }
+        private void cbFiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbFiles.SelectedItem is HopDongDinhKem selectedFile)
+            {
+                if (File.Exists(selectedFile.DuongDanFile))
+                {
+                    PdfViewer.Navigate(selectedFile.DuongDanFile);
+                }
+                else
+                {
+                    MessageBox.Show("File không tồn tại.");
+                }
+            }
+        }
+        private void BtnDeleteFile_Click(object sender, RoutedEventArgs e)
+        {
+            if (cbFiles.SelectedItem is HopDongDinhKem selectedFile)
+            {
+                using var db = new AppDbContext();
+                var file = db.HopDongDinhKems.Find(selectedFile.ID_File);
+                if (file != null)
+                {
+                    db.HopDongDinhKems.Remove(file);
+                    db.SaveChanges();
+                    if (File.Exists(file.DuongDanFile))
+                    {
+                        File.Delete(file.DuongDanFile);
+                    }
+                    MessageBox.Show("Xóa file thành công.");
+                    LoadFiles();
+                    PdfViewer.Navigate("about:blank");
+                }
+            }
+        }
+        private void BtnDownloadFile_Click(object sender, RoutedEventArgs e)
+        {
+            if (cbFiles.SelectedItem is HopDongDinhKem selectedFile)
+            {
+                SaveFileDialog dlg = new SaveFileDialog();
+                dlg.FileName = selectedFile.TenFile;
+                dlg.Filter = "PDF files (*.pdf)|*.pdf";
+                if (dlg.ShowDialog() == true)
+                {
+                    File.Copy(selectedFile.DuongDanFile, dlg.FileName, true);
+                    MessageBox.Show("Download thành công.");
+                }
             }
         }
     }
