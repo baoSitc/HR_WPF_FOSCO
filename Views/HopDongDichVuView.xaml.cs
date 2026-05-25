@@ -64,7 +64,7 @@ namespace HR_WPF_FOSCO.Views
 
             OpenFileDialog dlg = new OpenFileDialog();
 
-            dlg.Filter = "PDF files (*.pdf)|*.pdf";
+            dlg.Filter = "All Files|*.*";
 
             if (dlg.ShowDialog() == true)
             {
@@ -99,7 +99,7 @@ namespace HR_WPF_FOSCO.Views
                 file.TenFile = fileName;
 
                 file.DuongDanFile = destPath;
-                file.LoaiFile = "pdf";
+                file.LoaiFile = Path.GetExtension(fileName);
 
 
                 db.HopDongDinhKems.Add(file);
@@ -199,7 +199,7 @@ namespace HR_WPF_FOSCO.Views
             {
                 SaveFileDialog dlg = new SaveFileDialog();
                 dlg.FileName = selectedFile.TenFile;
-                dlg.Filter = "PDF files (*.pdf)|*.pdf";
+                dlg.Filter = "All Files|*.*";
                 if (dlg.ShowDialog() == true)
                 {
                     File.Copy(selectedFile.DuongDanFile, dlg.FileName, true);
