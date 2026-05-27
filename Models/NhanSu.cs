@@ -44,15 +44,36 @@ namespace HR_WPF_FOSCO.Models
         public string? SoBHXH { get; set; }
 
         public bool? TrangThai { get; set; }
+        [ NotMapped]
         public String? TrangThaiLamViec {
             get
             {
                 if (TrangThai == null)
                     return "Không xác định";
-                else if (TrangThai == true)
-                    return "Đang làm việc";
-                else
-                    return "Đã nghỉ việc";
+
+                return TrangThai == true
+                    ? "Đang làm việc"
+                    : "Đã nghỉ việc";
+            }
+
+            set
+            {
+                switch (value)
+                {
+                    case "Đang làm việc":
+                        TrangThai = true;
+                        break;
+
+                    case "Đã nghỉ việc":
+                        TrangThai = false;
+                        break;
+
+                    default:
+                        TrangThai = null;
+                        break;
+                }
+
+              
             }
         }
 
@@ -179,6 +200,8 @@ namespace HR_WPF_FOSCO.Models
         // =====================================================
 
         public DateTime? NGAYTAO { get; set; }
+        public String? ChucDanhHienTai { get; set; } = null;
+        public string? TrinhDoHocVan { get; set; } = null;
 
         [NotMapped]
         public string Ten

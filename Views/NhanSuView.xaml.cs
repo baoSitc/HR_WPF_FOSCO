@@ -23,5 +23,22 @@ namespace HR_WPF_FOSCO.Views
             InitializeComponent();
             DataContext = new ViewModels.NhanSuViewModel();
         }
+
+        public void BtnAddLuong_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as ViewModels.NhanSuViewModel)?.AddQuaTrinhLuong();
+        }
+        public void BtnSaveLuong_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as ViewModels.NhanSuViewModel)?.SaveQuaTrinhLuong();
+        }
+        public void BtnImportLuong_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as ViewModels.NhanSuViewModel)?.ImportQuaTrinhLuong();
+        }
+        public void BtnDeleteLuong_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as ViewModels.NhanSuViewModel)?.DeleteQuaTrinhLuong();
+        }
     }
 }

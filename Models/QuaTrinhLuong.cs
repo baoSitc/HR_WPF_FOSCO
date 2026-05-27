@@ -53,6 +53,9 @@ namespace HR_WPF_FOSCO.Models
         public double? LuongThucTe { get; set; }
 
         public double? LuongDongBHXH { get; set; }
+        public bool? DangSuDung {  get; set; }=false;
+        [NotMapped]
+        public  int Stt { get; set; } = 1;
 
         // =====================================================
         // GHI CHÚ
