@@ -44,6 +44,14 @@ namespace HR_WPF_FOSCO.Models
         public String? NganHangNopThue { get; set; } = null!; 
         public String? SoTaiKhoanNopThue { get;set; }
         public int?Stt { get; set; }
+        [NotMapped]
+        public string TenHienThi
+        {
+            get
+            {
+                return $"{MaDonVi} - {TenDonVi}";
+            }
+        }
 
 
 

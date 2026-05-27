@@ -30,7 +30,59 @@ namespace HR_WPF_FOSCO.ViewModels
             = new ObservableCollection<NguoiPhuThuoc>();
         //khai báo db context
         private readonly AppDbContext _context = new AppDbContext();
+        private string _trangThaiFilter = "Tất cả";
 
+        public string TrangThaiFilter
+        {
+            get => _trangThaiFilter;
+            set
+            {
+                _trangThaiFilter = value;
+                OnPropertyChanged(nameof(TrangThaiFilter));
+                // reset combobox đơn vị
+                if (_trangThaiFilter == "Tất cả nhân viên")
+                {
+                    SelectedDonViID = null;
+                    TuKhoa = string.Empty;
+                }
+
+                SearchNhanSu();
+            }
+        }
+        public List<string> TrangThaiList { get; set; }
+            = new List<string>
+        {
+                 "Tất cả nhân viên",
+            "Tất cả",
+            "Đang làm việc",
+            "Nghỉ việc"
+        };
+
+        public List<string> GenderList { get; set; }
+                = new()
+            {
+                "Nam",
+                "Nữ"
+            };
+        public string GioiTinhText
+        {
+            get
+            {
+                return SelectedNhanSu?.GioiTinh == true
+                    ? "Nam"
+                    : "Nữ";
+            }
+            set
+            {
+                if (SelectedNhanSu != null)
+                {
+                    SelectedNhanSu.GioiTinh =
+                        value == "Nam";
+                }
+
+                OnPropertyChanged(nameof(GioiTinhText));
+            }
+        }
         // =====================================================
         // DANH SÁCH NHÂN SỰ
         // =====================================================
@@ -57,6 +109,7 @@ namespace HR_WPF_FOSCO.ViewModels
             {
                 _selectedNhanSu = value;
                 OnPropertyChanged(nameof(SelectedNhanSu));
+                OnPropertyChanged(nameof(GioiTinhText));
             }
         }
         // =====================================================
@@ -174,20 +227,42 @@ namespace HR_WPF_FOSCO.ViewModels
 
             // FILTER ĐƠN VỊ
 
-            if (SelectedDonViID != null)
+            if (SelectedDonViID != null && TrangThaiFilter != "Tất cả nhân viên")
             {
                 query = query.Where(x =>
                     x.ID_DonVi == SelectedDonViID);
             }
+            // FILTER TRẠNG THÁI
+            if (TrangThaiFilter == "Tất cả nhân viên")
+            {
+                query = query.Where(x => x.TrangThai == true || x.TrangThai == false);
+            }
+           
+                else if (TrangThaiFilter == "Tất cả")
+            {
+                query = query.Where(x => x.TrangThai == true || x.TrangThai == false);
+            }
+            else
+                if (TrangThaiFilter == "Đang làm việc")
+            {
+                query = query.Where(x => x.TrangThai == true);
+            }
+            else if (TrangThaiFilter == "Nghỉ việc")
+            {
+                query = query.Where(x => x.TrangThai == false);
+            }
+
 
             var list = query
-                        .OrderBy(x => x.HoTen)
+                .AsEnumerable()
+                        .OrderBy(x => x.Ten)
                         .ToList();
 
             NhanSus.Clear();
-
+            int stt = 1;
             foreach (var item in list)
             {
+                item.Stt = stt++;
                 NhanSus.Add(item);
             }
         }

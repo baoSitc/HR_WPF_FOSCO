@@ -44,6 +44,17 @@ namespace HR_WPF_FOSCO.Models
         public string? SoBHXH { get; set; }
 
         public bool? TrangThai { get; set; }
+        public String? TrangThaiLamViec {
+            get
+            {
+                if (TrangThai == null)
+                    return "Không xác định";
+                else if (TrangThai == true)
+                    return "Đang làm việc";
+                else
+                    return "Đã nghỉ việc";
+            }
+        }
 
         // =====================================================
         // LIÊN HỆ
@@ -169,6 +180,21 @@ namespace HR_WPF_FOSCO.Models
 
         public DateTime? NGAYTAO { get; set; }
 
+        [NotMapped]
+        public string Ten
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(HoTen))
+                    return "";
+
+                var arr = HoTen.Trim().Split(' ');
+
+                return arr[arr.Length - 1];
+            }
+        }
+        [NotMapped]
+        public int? Stt { get; set; } = 1;
         // =====================================================
         // CHILD TABLES
         // =====================================================

@@ -1,17 +1,13 @@
 ﻿<UserControl x:Class="HR_WPF_FOSCO.Views.NhanSuView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HR_WPF_FOSCO.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:vm="clr-namespace:HR_WPF_FOSCO.ViewModels"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
 
-    <UserControl.Resources>
-        <vm:NhanSuViewModel x:Key="NhanSuViewModel"/>
-    </UserControl.Resources>
     <Grid Background="#F5F5F5">
 
         <Grid.RowDefinitions>
@@ -41,15 +37,30 @@
 
                     <ColumnDefinition Width="0.7*"/>
 
+                    <ColumnDefinition Width="0.7*"/>
+
                     <ColumnDefinition Width="300"/>
 
                     <ColumnDefinition Width="*"/>
 
                 </Grid.ColumnDefinitions>
 
+                <!-- TRẠNG THÁI -->
+
+                <ComboBox Grid.Column="0"
+                          Margin="5"
+                          Height="35"
+
+                          Style="{StaticResource MaterialDesignComboBox}"
+
+                          ItemsSource="{Binding TrangThaiList}"
+
+                          SelectedItem="{Binding TrangThaiFilter,
+                          Mode=TwoWay}"/>
+
                 <!-- SEARCH -->
 
-                <DockPanel Grid.Column="0"
+                <DockPanel Grid.Column="1"
                            Margin="5">
 
                     <materialDesign:PackIcon Kind="Magnify"
@@ -60,29 +71,47 @@
 
                     <TextBox Height="35"
                              FontSize="14"
+
                              VerticalContentAlignment="Center"
+
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+
+                             Text="{Binding TuKhoa,
+                             Mode=TwoWay,
+                             UpdateSourceTrigger=PropertyChanged}"
+
                              materialDesign:HintAssist.Hint="Tìm mã, tên nhân viên..."/>
 
                 </DockPanel>
 
                 <!-- ĐƠN VỊ -->
 
-                <ComboBox Grid.Column="1"
+                <ComboBox Grid.Column="2"
                           Margin="5"
                           Height="35"
-                          Style="{StaticResource MaterialDesignComboBox}"
-                          ItemsSource="{Binding DonVis, Source={StaticResource NhanSuViewModel}}"
-                          DisplayMemberPath="TenDonVi"
 
-                            SelectedValuePath="ID_DonVi" 
-                        
-                          SelectedValue="{Binding SelectedDonViID, Source={StaticResource NhanSuViewModel}}"
+                          Style="{StaticResource MaterialDesignComboBox}"
+
+                          ItemsSource="{Binding DonVis}"
+
+                          SelectedValuePath="ID_DonVi"
+
+                          SelectedValue="{Binding SelectedDonViID,
+                          Mode=TwoWay}"
+
+                          IsEditable="True"
+
+                          IsTextSearchEnabled="True"
+
+                          DisplayMemberPath="TenHienThi"
+
+                          TextSearch.TextPath="TenHienThi"
+
                           materialDesign:HintAssist.Hint="Chọn đơn vị..."/>
 
                 <!-- BUTTON -->
 
-                <Button Grid.Column="2"
+                <Button Grid.Column="3"
                         Margin="5"
                         Height="35"
                         Content="Thêm nhân sự"/>
@@ -99,15 +128,26 @@
                   Margin="10"
                   Header="Danh sách nhân sự">
 
-            <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding NhanSus, Source={StaticResource NhanSuViewModel}}"
-                      Margin="5"
+            <DataGrid Margin="5"
+
+                      AutoGenerateColumns="False"
+
+                      ItemsSource="{Binding NhanSus}"
+
+                      SelectedItem="{Binding SelectedNhanSu,
+                      Mode=TwoWay}"
 
                       FrozenColumnCount="2"
 
                       EnableRowVirtualization="True"
+
                       EnableColumnVirtualization="True">
 
                 <DataGrid.Columns>
+
+                    <DataGridTextColumn Header="STT"
+                                        Binding="{Binding Stt}"
+                                        Width="60"/>
 
                     <DataGridTextColumn Header="Mã NV"
                                         Binding="{Binding MaNhanSu}"
@@ -126,14 +166,15 @@
                                         Width="150"/>
 
                     <DataGridTextColumn Header="Điện thoại"
-                                        Binding="{Binding DienThoai}"
+                                        Binding="{Binding DienThoaiDiDong}"
                                         Width="120"/>
+
                     <DataGridTextColumn Header="Số CCCD"
-                       Binding="{Binding CCCD}"
-                       Width="120"/>
+                                        Binding="{Binding CCCD}"
+                                        Width="150"/>
 
                     <DataGridTextColumn Header="Trạng thái"
-                                        Binding="{Binding TrangThai}"
+                                        Binding="{Binding TrangThaiLamViec}"
                                         Width="120"/>
 
                 </DataGrid.Columns>
@@ -179,30 +220,54 @@
                                 <Grid.RowDefinitions>
 
                                     <RowDefinition Height="40"/>
+
                                     <RowDefinition Height="40"/>
+
                                     <RowDefinition Height="40"/>
+
+                                    <RowDefinition Height="40"/>
+
                                     <RowDefinition Height="40"/>
                                     <RowDefinition Height="40"/>
 
                                 </Grid.RowDefinitions>
 
+                                <!-- MÃ NV -->
+
                                 <TextBlock Text="Mã nhân sự:"
                                            VerticalAlignment="Center"/>
 
-                                <TextBox Grid.Column="1"/>
+                                <TextBox Grid.Column="1"
+
+                                         Text="{Binding SelectedNhanSu.MaNhanSu,
+                                         Mode=TwoWay,
+                                         UpdateSourceTrigger=PropertyChanged}"/>
+
+                                <!-- HỌ TÊN -->
 
                                 <TextBlock Grid.Column="2"
                                            Text="Họ tên:"
                                            VerticalAlignment="Center"/>
 
-                                <TextBox Grid.Column="3"/>
+                                <TextBox Grid.Column="3"
+
+                                         Text="{Binding SelectedNhanSu.HoTen,
+                                         Mode=TwoWay,
+                                         UpdateSourceTrigger=PropertyChanged}"/>
+
+                                <!-- NGÀY SINH -->
 
                                 <TextBlock Grid.Row="1"
                                            Text="Ngày sinh:"
                                            VerticalAlignment="Center"/>
 
                                 <DatePicker Grid.Row="1"
-                                            Grid.Column="1"/>
+                                            Grid.Column="1"
+
+                                            SelectedDate="{Binding SelectedNhanSu.NgaySinh,
+                                            Mode=TwoWay}"/>
+
+                                <!-- GIỚI TÍNH -->
 
                                 <TextBlock Grid.Row="1"
                                            Grid.Column="2"
@@ -210,14 +275,27 @@
                                            VerticalAlignment="Center"/>
 
                                 <ComboBox Grid.Row="1"
-                                          Grid.Column="3"/>
+                                          Grid.Column="3"
+
+                                          ItemsSource="{Binding GenderList}"
+
+                                          SelectedItem="{Binding GioiTinhText,
+                                          Mode=TwoWay}"/>
+
+                                <!-- CCCD -->
 
                                 <TextBlock Grid.Row="2"
                                            Text="CCCD:"
                                            VerticalAlignment="Center"/>
 
                                 <TextBox Grid.Row="2"
-                                         Grid.Column="1"/>
+                                         Grid.Column="1"
+
+                                         Text="{Binding SelectedNhanSu.CCCD,
+                                         Mode=TwoWay,
+                                         UpdateSourceTrigger=PropertyChanged}"/>
+
+                                <!-- MST -->
 
                                 <TextBlock Grid.Row="2"
                                            Grid.Column="2"
@@ -225,41 +303,42 @@
                                            VerticalAlignment="Center"/>
 
                                 <TextBox Grid.Row="2"
-                                         Grid.Column="3"/>
+                                         Grid.Column="3"
 
+                                         Text="{Binding SelectedNhanSu.MaSoThueCaNhan,
+                                         Mode=TwoWay,
+                                         UpdateSourceTrigger=PropertyChanged}"/>
+                                <!-- Nơi Sinh-->
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Nơi sinh:" VerticalAlignment="Center"/>
+                                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SelectedNhanSu.NoiSinh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <!-- Trạng thái -->
+                                <TextBlock Grid.Row="3" Grid.Column="2" Text="Trạng thái làm việc:" VerticalAlignment="Center"/>
+                                <ComboBox Grid.Row="3" Grid.Column="3" 
+                                          ItemsSource="{Binding TrangThaiList}"
+                                    SelectedItem="{Binding TrangThaiLamViec, Mode=TwoWay}"/>
                             </Grid>
 
                         </ScrollViewer>
 
                     </TabItem>
 
-                    <!-- ====================================== -->
                     <!-- TAB LIÊN HỆ -->
-                    <!-- ====================================== -->
 
                     <TabItem Header="Liên hệ"/>
 
-                    <!-- ====================================== -->
-                    <!-- TAB BHXH -->
-                    <!-- ====================================== -->
+                    <!-- TAB LƯƠNG -->
 
                     <TabItem Header="Lương - BHXH"/>
 
-                    <!-- ====================================== -->
                     <!-- TAB NPT -->
-                    <!-- ====================================== -->
 
                     <TabItem Header="Người phụ thuộc"/>
 
-                    <!-- ====================================== -->
                     <!-- TAB LỊCH SỬ LƯƠNG -->
-                    <!-- ====================================== -->
 
                     <TabItem Header="Lịch sử lương"/>
 
-                    <!-- ====================================== -->
                     <!-- TAB PHỤ CẤP -->
-                    <!-- ====================================== -->
 
                     <TabItem Header="Phụ cấp"/>
 
@@ -270,4 +349,5 @@
         </GroupBox>
 
     </Grid>
+
 </UserControl>

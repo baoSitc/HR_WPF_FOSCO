@@ -21,6 +21,7 @@ namespace HR_WPF_FOSCO.Views
         public NhanSuView()
         {
             InitializeComponent();
+            DataContext = new ViewModels.NhanSuViewModel();
         }
     }
 }
