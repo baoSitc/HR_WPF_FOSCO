@@ -42,6 +42,19 @@ namespace HR_WPF_FOSCO.ViewModels
         //quá trình phụ cấp
         public ObservableCollection<QuaTrinhPhuCap> QuaTrinhPhuCaps { get; set; }
             = new ObservableCollection<QuaTrinhPhuCap>();
+        //chọn quá trình phụ cấp
+        private QuaTrinhPhuCap _selectedQuaTrinhPhuCap;
+        public QuaTrinhPhuCap SelectedQuaTrinhPhuCap
+        {
+            get => _selectedQuaTrinhPhuCap;
+            set
+            {
+                _selectedQuaTrinhPhuCap = value;
+                OnPropertyChanged(nameof(SelectedQuaTrinhPhuCap));
+            }
+        }
+
+
         //người phụ thuộc
         public ObservableCollection<NguoiPhuThuoc> NguoiPhuThuocs { get; set; }
             = new ObservableCollection<NguoiPhuThuoc>();
@@ -128,6 +141,7 @@ namespace HR_WPF_FOSCO.ViewModels
                 OnPropertyChanged(nameof(SelectedNhanSu));
                 OnPropertyChanged(nameof(GioiTinhText));
                 LoadQuaTrinhLuong();
+                LoadQuaTrinhPhuCap();
             }
         }
         // =====================================================
@@ -325,7 +339,8 @@ namespace HR_WPF_FOSCO.ViewModels
             var list = _context.QuaTrinhPhuCaps
                                .Where(x =>
                                    x.MaNhanSu ==
-                                   SelectedNhanSu.MaNhanSu)
+                                   SelectedNhanSu.MaNhanSu
+                                   && x.ID_DonVi == SelectedNhanSu.ID_DonVi)
                                .OrderByDescending(x =>
                                    x.HieuLucTuNgay)
                                .ToList();
@@ -549,7 +564,7 @@ namespace HR_WPF_FOSCO.ViewModels
                         }
 
                         var nhanSu = db.NhanSus
-                            .FirstOrDefault(x => x.MaNhanSu == maNhanSu && x.ID_DonVi==idDonvi);
+                            .FirstOrDefault(x => x.MaNhanSu == maNhanSu && x.ID_DonVi == idDonvi);
 
                         if (nhanSu == null)
                         {
@@ -676,6 +691,77 @@ namespace HR_WPF_FOSCO.ViewModels
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
+        }
+        //=====================================================
+        // QUÁ TRÌNH PHỤ CẤP
+        //=====================================================
+        public void AddQuaTrinhPhuCap()
+        {
+            SelectedQuaTrinhPhuCap = new QuaTrinhPhuCap
+            {
+                HieuLucTuNgay = DateTime.Today,
+                HieuLucDenNgay = DateTime.Today,
+                MaNhanSu = SelectedNhanSu?.MaNhanSu,
+                ID_DonVi = SelectedNhanSu?.ID_DonVi,
+                DangSuDung = true,
+                NgayTao = DateTime.Now
+
+            };
+            QuaTrinhPhuCaps.Add(SelectedQuaTrinhPhuCap);
+            OnPropertyChanged(nameof(SelectedQuaTrinhPhuCap));
+
+        }
+        public void DeleteQuaTrinhPhuCap()
+        {
+            if (SelectedQuaTrinhPhuCap != null)
+            {
+                QuaTrinhPhuCaps.Remove(SelectedQuaTrinhPhuCap);
+                OnPropertyChanged(nameof(SelectedQuaTrinhPhuCap));
+            }
+        }
+        public void SaveQuaTrinhPhuCap()
+        {
+            using var db = new AppDbContext();
+            //kiểm tra xem có trường hợp  thêm mới nào không, nếu có thì thêm vào db
+            bool them = false;
+            foreach (var item in QuaTrinhPhuCaps)
+            {
+                if (item.ID == 0)
+                {
+                    them = true;
+                    break;
+                }
+            }
+            if (them)
+            {
+                foreach (var item in QuaTrinhPhuCaps)
+                {
+                    if (item.ID == 0)
+                        db.QuaTrinhPhuCaps.Add(item);
+                    else
+                    {
+                        item.DangSuDung = false;
+                        db.QuaTrinhPhuCaps.Update(item);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var item in QuaTrinhPhuCaps)
+                {
+                    if (SelectedQuaTrinhPhuCap.DangSuDung == true)
+                        if (item.ID != SelectedQuaTrinhPhuCap.ID)
+                            item.DangSuDung = false;
+                }
+            }
+
+            db.SaveChanges();
+            LoadQuaTrinhPhuCap();
+        }
+        public void ImportQuaTrinhPhuCap()
+        {
+            //tương tự như import quá trình lương nhưng sẽ có nhiều cột hơn, nên sẽ bỏ qua phần import phụ cấp trong quá trình này
+            MessageBox.Show("Chức năng này đang được phát triển!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

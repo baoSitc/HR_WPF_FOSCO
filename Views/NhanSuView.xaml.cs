@@ -40,5 +40,21 @@ namespace HR_WPF_FOSCO.Views
         {
             (DataContext as ViewModels.NhanSuViewModel)?.DeleteQuaTrinhLuong();
         }
+        public void BtnAddPhuCap_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as ViewModels.NhanSuViewModel)?.AddQuaTrinhPhuCap();
+        }
+        public void BtnSavePhuCap_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as ViewModels.NhanSuViewModel)?.SaveQuaTrinhPhuCap();
+        }
+        public void BtnImportPhuCap_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as ViewModels.NhanSuViewModel)?.ImportQuaTrinhPhuCap();
+        }
+        public void BtnDeletePhuCap_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as ViewModels.NhanSuViewModel)?.DeleteQuaTrinhPhuCap();
+        }
     }
 }

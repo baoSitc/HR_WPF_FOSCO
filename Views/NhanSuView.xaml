@@ -715,7 +715,7 @@ BorderThickness="1">
 
                                         </StackPanel>
 
-                                        <StackPanel Width="200" Margin="5">                                          
+                                        <StackPanel Width="250" Margin="5">                                          
 
                                             <TextBox Height="50"  Margin="0,5,0,0"
                                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
@@ -882,7 +882,308 @@ BorderThickness="1">
 
                     <!-- TAB PHỤ CẤP -->
 
-                    <TabItem Header="Phụ cấp"/>
+                    <TabItem Header="Phụ Cấp">
+                        <Grid>
+                            <!-- Chia grid thành 2 dòng, 1 dòng cho toolbar, 1 dòng cho nội dung -->
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <!--Phần form-->
+                                <Border Background="White" Grid.Column="0"
+                    CornerRadius="8"
+                    Padding="10"
+                    Margin="5"
+                    BorderBrush="ForestGreen"
+                    BorderThickness="1">
+
+                                    <WrapPanel>
+
+                                        <!-- TỪ NGÀY -->
+
+                                        <StackPanel Width="180"
+            Margin="5">
+
+
+                                            <DatePicker Height="50"  Margin="0,5,0,0"
+                                       Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                          materialDesign:HintAssist.Hint="Từ ngày"                                                
+                                        SelectedDate="{Binding SelectedQuaTrinhPhuCap.HieuLucTuNgay, StringFormat={}{dd/MM/yyyy}, 
+                                                Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+
+
+                                        </StackPanel>
+
+                                        <!-- ĐẾN NGÀY -->
+
+                                        <StackPanel Width="180"    Margin="5">
+
+                                            <DatePicker Height="50"  Margin="0,5,0,0"
+                                      Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                         materialDesign:HintAssist.Hint="Đến ngày"            
+                                                        SelectedDateFormat="Short"
+                                         SelectedDate="{Binding SelectedQuaTrinhPhuCap.HieuLucDenNgay,
+                                             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+
+                                        <!-- TIỀN TỆ -->
+
+                                        <StackPanel Width="100"   Margin="5">
+
+
+
+                                            <ComboBox Height="50"  Margin="0,5,0,0"
+                                                      Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                                       materialDesign:HintAssist.Hint="Tiền tệ"
+  
+                            SelectedValue="{Binding SelectedQuaTrinhPhuCap.TienTe, 
+                                Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                SelectedValuePath="Content">
+                                                <ComboBoxItem Content="U"/>
+                                                <ComboBoxItem Content="D"/>
+                                            </ComboBox>
+
+                                        </StackPanel>
+
+                                        <!-- Tiền Phụ Cấp -->
+
+                                        <StackPanel Width="150"  Margin="5">
+
+                                            <TextBox Height="50"  Margin="0,5,0,0"
+                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     materialDesign:HintAssist.Hint="Tiền phụ cấp"
+                                     Text="{Binding SelectedQuaTrinhPhuCap.TienPhuCap,StringFormat={}{0:N2},
+                                        Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+
+                                        </StackPanel>
+                                        <!-- Tiền Ăn Uống -->
+                                        <StackPanel Width="150" Margin="5">
+
+                                            <TextBox Height="50"  Margin="0,5,0,0"
+                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     materialDesign:HintAssist.Hint="Tiền ăn"
+                                     Text="{Binding SelectedQuaTrinhPhuCap.TienAn,StringFormat={}{0:N2},
+                                        Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>                                           
+
+                                        </StackPanel>
+                                        <!-- Tiền Điện thoại -->
+                                        <StackPanel Width="150" Margin="5">
+
+                                            <TextBox Height="50"  Margin="0,5,0,0"
+Style="{StaticResource MaterialDesignOutlinedTextBox}"
+  materialDesign:HintAssist.Hint="Tiền điện thoại"
+  Text="{Binding SelectedQuaTrinhPhuCap.TienDienThoai,StringFormat={}{0:N2},
+     Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+
+                                        </StackPanel>
+                                        <!-- Tiền Công Tác -->
+                                        <StackPanel Width="150" Margin="5">
+
+                                            <TextBox Height="50"  Margin="0,5,0,0"
+Style="{StaticResource MaterialDesignOutlinedTextBox}"
+  materialDesign:HintAssist.Hint="Tiền công tác"
+  Text="{Binding SelectedQuaTrinhPhuCap.TienCongTac,StringFormat={}{0:N2},
+     Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+                                        <!-- Tiền Trang Phục -->
+                                        <StackPanel Width="150" Margin="5">
+                                            <TextBox Height="50"  Margin="0,5,0,0"
+                                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                          materialDesign:HintAssist.Hint="Tiền trang phục"
+                                          Text="{Binding SelectedQuaTrinhPhuCap.TienTrangPhuc,StringFormat={}{0:N2},
+                                             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+                                        <!-- Tiền Khác Có Thuế -->
+
+                                        <StackPanel Width="250" Margin="5">
+                                            <TextBox Height="50"  Margin="0,5,0,0"
+                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     materialDesign:HintAssist.Hint="Khác có thuế"
+                                     Text="{Binding SelectedQuaTrinhPhuCap.TienKhac_Thue,StringFormat={}{0:N2},
+                                    Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+                                        <!-- Tiền Khác Không Có Thuế -->
+
+                                        <StackPanel Width="250" Margin="5">
+                                            <TextBox Height="50"  Margin="0,5,0,0"
+Style="{StaticResource MaterialDesignOutlinedTextBox}"
+  materialDesign:HintAssist.Hint="Khác không có thuế"
+  Text="{Binding SelectedQuaTrinhPhuCap.TienKhac_KhongThue,StringFormat={}{0:N2},
+ Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+
+
+                                        <StackPanel Width="250" Margin="5">
+                                            <TextBox Height="50"  Margin="0,5,0,0"
+                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     materialDesign:HintAssist.Hint="Ghi chú"
+                                     Text="{Binding SelectedQuaTrinhPhuCap.GhiChu,
+                                        Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+
+                                        </StackPanel>
+                                        <StackPanel Width="120" Margin="5">
+                                            <CheckBox Content="Đang sử dụng"
+
+                                              Margin="5"
+
+                                              FontWeight="SemiBold"
+
+                                              Foreground="#1976D2"
+
+                                              Style="{StaticResource MaterialDesignCheckBox}"
+
+                                              IsChecked="{Binding SelectedQuaTrinhPhuCap.DangSuDung,
+                                              Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>   
+                                        </StackPanel>
+
+
+
+                                    </WrapPanel>
+
+                                </Border>
+                                <!--Phần Menu-->
+                                <Border Background="White" Grid.Column="1"
+                                    CornerRadius="8"
+                                    Padding="10"
+                                    Margin="5"
+                                    BorderBrush="ForestGreen"
+                                    BorderThickness="1">
+
+                                    <Grid Margin="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <!-- THÊM -->
+
+                                        <Button Width="100" Grid.Column="0" Grid.Row="0"
+                                            Margin="5"
+                                            Background="#4CAF50"
+                                            Foreground="White"
+                                            Style="{StaticResource MaterialDesignRaisedButton}"
+                                            Click="BtnAddPhuCap_Click">
+
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <materialDesign:PackIcon Kind="Plus"
+                         Width="18"
+                         Height="18"
+                         Margin="0,0,5,0"/>
+
+                                                <TextBlock Text="Thêm"/>
+
+                                            </StackPanel>
+
+                                        </Button>
+
+                                        <!-- XÓA -->
+
+                                        <Button Width="100"  Grid.Column="1" Grid.Row="0"
+                                        Margin="5"
+                                        Background="#F44336"
+                                        Foreground="White"
+                                        Style="{StaticResource MaterialDesignRaisedButton}"
+                                        Click="BtnDeletePhuCap_Click">
+
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <materialDesign:PackIcon Kind="Delete"
+                         Width="18"
+                         Height="18"
+                         Margin="0,0,5,0"/>
+
+                                                <TextBlock Text="Xóa"/>
+
+                                            </StackPanel>
+
+                                        </Button>
+
+                                        <!-- LƯU -->
+
+                                        <Button Width="100"  Grid.Column="0" Grid.Row="1"
+                                        Margin="5"
+                                        Background="#2196F3"
+                                        Foreground="White"
+                                        Style="{StaticResource MaterialDesignRaisedButton}"
+                                        Click="BtnSavePhuCap_Click">
+
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <materialDesign:PackIcon Kind="ContentSave"
+                         Width="18"
+                         Height="18"
+                         Margin="0,0,5,0"/>
+
+                                                <TextBlock Text="Lưu"/>
+
+                                            </StackPanel>
+
+                                        </Button>
+                                        <!--Import-->
+                                        <Button Width="100"  Grid.Column="1" Grid.Row="1"
+          Margin="5"
+          Background="#FF9800"
+          Foreground="White"
+          Style="{StaticResource MaterialDesignRaisedButton}"
+          Click="BtnImportPhuCap_Click">
+
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <materialDesign:PackIcon Kind="Import"
+   Width="18"
+   Height="18"
+   Margin="0,0,5,0"/>
+
+                                                <TextBlock Text="Import"/>
+
+                                            </StackPanel>
+
+                                        </Button>
+
+                                    </Grid>
+                                </Border>
+
+                            </Grid>
+
+
+
+                            <!--tẠO GRID QUÁ TRÌNH LƯƠNG-->
+                            <DataGrid Grid.Row="1"
+                                      ItemsSource="{Binding QuaTrinhPhuCaps}"
+                                      SelectedItem="{Binding SelectedQuaTrinhPhuCap, Mode=TwoWay}"
+                                      AutoGenerateColumns="False"
+                                      CanUserAddRows="False"
+                                      CanUserDeleteRows="False"
+                                      IsReadOnly="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Từ ngày" Binding="{Binding TuNgay,StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Đến ngày" Binding="{Binding DenNgay,StringFormat=dd/MM/yyyy}" />
+                                    <DataGridTextColumn Header="Tiền tệ" Binding="{Binding TienTe}" />
+                                    <DataGridTextColumn Header="Phụ cấp" Binding="{Binding TienPhuCap,StringFormat=N2}" />
+
+                                    <DataGridTextColumn Header="Tiền ăn" Binding="{Binding TienAn,StringFormat=N2}" />
+                                    <DataGridTextColumn Header="Tiền điện thoại" Binding="{Binding TienDienThoai,StringFormat=N2}" />
+                                    <DataGridTextColumn Header="Tiền công tác" Binding="{Binding TienCongTac,StringFormat=N2}" />
+                                    <DataGridTextColumn Header="Tiền trang phục" Binding="{Binding TienTrangPhuc,StringFormat=N2}" />
+                                    <DataGridTextColumn Header="Tiền khác" Binding="{Binding TienKhac_Thue,StringFormat=N2}" />
+                                    <DataGridTextColumn Header="Tiền khác không thuế" Binding="{Binding TienKhac_KhongThue ,StringFormat=N2}" />
+                                    <DataGridCheckBoxColumn Header="Đang sử dụng" Binding="{Binding DangSuDung}" />
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                        </Grid>
+                    </TabItem>
 
                 </TabControl>
 
