@@ -296,6 +296,7 @@ namespace HR_WPF_FOSCO.ViewModels
                 return;
 
             var list = _context.QuaTrinhLuongs
+                            .AsNoTracking()
                                .Where(x =>
                                    x.MaNhanSu ==
                                    SelectedNhanSu.MaNhanSu
@@ -307,6 +308,7 @@ namespace HR_WPF_FOSCO.ViewModels
             {
                 QuaTrinhLuongs.Add(item);
             }
+            OnPropertyChanged(nameof(QuaTrinhLuongs));
         }
 
         // =====================================================
@@ -554,51 +556,80 @@ namespace HR_WPF_FOSCO.ViewModels
                             errors.Add($"Dòng {row.RowNumber()}: không tồn tại nhân sự {maNhanSu}");
                             continue;
                         }
-
-                        //-----------------------------------
-                        // TẮT DÒNG ĐANG SỬ DỤNG
-                        //-----------------------------------
-
-                        var currentLuong = db.QuaTrinhLuongs
-                            .Where(x => x.MaNhanSu == maNhanSu
-                                     && x.DangSuDung == true)
-                            .ToList();
-
-                        foreach (var item in currentLuong)
+                        //kiểm tra xem đã tồn tại quá trình lương nào có cùng mã nhân sự, đơn vị và từ ngày chưa, nếu có thì cập nhật lại, nếu không thì thêm mới
+                        var existing = db.QuaTrinhLuongs
+                        .FirstOrDefault(x =>
+                        x.MaNhanSu == maNhanSu
+                        && x.ID_DonVi == idDonvi
+                        && x.TuNgay == tuNgay);
+                        if (existing != null)
                         {
-                            item.DangSuDung = false;
+
+
+                            existing.TienTe = tienTe;
+
+                            existing.LuongThucTe = luongThucTe;
+
+                            existing.LuongDongBHXH = luongBHXH;
+
+                            existing.DenNgay = denNgay;
+
+                            existing.GhiChu = ghiChu;
+
+                            existing.DangSuDung = true;
+                            db.QuaTrinhLuongs.Update(existing);
                         }
-
-                        //-----------------------------------
-                        // THÊM LƯƠNG MỚI
-                        //-----------------------------------
-
-                        var newLuong = new QuaTrinhLuong
+                        else
+                        // THÊM MỚI
                         {
-                            MaNhanSu = maNhanSu,
 
-                            ID_DonVi = nhanSu.ID_DonVi,
 
-                            TuNgay = tuNgay,
+                            //-----------------------------------
+                            // TẮT DÒNG ĐANG SỬ DỤNG
+                            //-----------------------------------
 
-                            DenNgay = denNgay,                          
 
-                            TienTe = tienTe,
+                            var currentLuong = db.QuaTrinhLuongs
+                                .Where(x => x.MaNhanSu == maNhanSu
+                                         && x.DangSuDung == true)
+                                .ToList();
 
-                            LuongThucTe = luongThucTe,
+                            foreach (var item in currentLuong)
+                            {
+                                item.DangSuDung = false;
+                            }
 
-                            LuongDongBHXH = luongBHXH,
+                            //-----------------------------------
+                            // THÊM LƯƠNG MỚI
+                            //-----------------------------------
 
-                            GhiChu = ghiChu,
+                            var newLuong = new QuaTrinhLuong
+                            {
+                                MaNhanSu = maNhanSu,
 
-                            DangSuDung = true,
+                                ID_DonVi = nhanSu.ID_DonVi,
 
-                            NgayTao = DateTime.Now
-                        };
+                                TuNgay = tuNgay,
 
-                        db.QuaTrinhLuongs.Add(newLuong);
+                                DenNgay = denNgay,
 
-                        success++;
+                                TienTe = tienTe,
+
+                                LuongThucTe = luongThucTe,
+
+                                LuongDongBHXH = luongBHXH,
+
+                                GhiChu = ghiChu,
+
+                                DangSuDung = true,
+
+                                NgayTao = DateTime.Now
+                            };
+
+                            db.QuaTrinhLuongs.Add(newLuong);
+
+                            success++;
+                        }
                     }
                     catch (Exception exRow)
                     {
