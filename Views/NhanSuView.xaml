@@ -1166,8 +1166,8 @@ Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                       CanUserDeleteRows="False"
                                       IsReadOnly="True">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Từ ngày" Binding="{Binding TuNgay,StringFormat=dd/MM/yyyy}" IsReadOnly="True"/>
-                                    <DataGridTextColumn Header="Đến ngày" Binding="{Binding DenNgay,StringFormat=dd/MM/yyyy}" />
+                                    <DataGridTextColumn Header="Từ ngày" Binding="{Binding HieuLucTuNgay,StringFormat=dd/MM/yyyy}"/>
+                                    <DataGridTextColumn Header="Đến ngày" Binding="{Binding HieuLucDenNgay,StringFormat=dd/MM/yyyy}" />
                                     <DataGridTextColumn Header="Tiền tệ" Binding="{Binding TienTe}" />
                                     <DataGridTextColumn Header="Phụ cấp" Binding="{Binding TienPhuCap,StringFormat=N2}" />
 
