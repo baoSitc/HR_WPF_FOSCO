@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HR_WPF_FOSCO.Models
 {
     [Table("QuaTrinhPhuCap")]
-    public class QuaTrinhPhuCap
+    public class QuaTrinhPhuCap:INotifyPropertyChanged
     {
         // =====================================================
         // PRIMARY KEY
@@ -54,23 +55,103 @@ namespace HR_WPF_FOSCO.Models
 
         public double? TienThuong { get; set; }
 
-        public double? TienPhuCap { get; set; }
+        private double? _tienPhuCap;
 
-        public double? TienAn { get; set; }
+        public double? TienPhuCap
+        {
+            get => _tienPhuCap;
 
-        public double? TienDienThoai { get; set; }
+            set
+            {
 
-        public double? TienCongTac { get; set; }
+                _tienPhuCap = value;              
+                OnPropertyChanged(nameof(TienPhuCap));
 
-        public double? TienTrangPhuc { get; set; }
+                OnPropertyChanged(nameof(TienKhac_Thue));
+            }
+        }
 
-        public double? TienNha { get; set; }
+        private double? _tienAn;
+
+        public double? TienAn
+        {
+            get => _tienAn;
+
+            set
+            {
+                _tienAn = value;               
+                OnPropertyChanged(nameof(TienAn));
+                OnPropertyChanged(nameof(TienKhac_Thue));
+            }
+        }
+        private double? _tienDienThoai;
+
+        public double? TienDienThoai
+        {
+            get => _tienDienThoai;
+
+            set
+            {
+                _tienDienThoai = value;
+                OnPropertyChanged(nameof(TienDienThoai));
+                OnPropertyChanged(nameof(TienKhac_Thue));
+            }
+        }
+        private double? _tienCongTac;
+        public double? TienCongTac { get => _tienCongTac;
+            set
+            {
+                _tienCongTac = value;
+                OnPropertyChanged(nameof(TienCongTac));
+                OnPropertyChanged(nameof(TienKhac_Thue));
+            }
+        }
+        private double? _tienTrangPhuc;
+        public double? TienTrangPhuc { get => _tienTrangPhuc;
+            set
+            {
+                _tienTrangPhuc   = value;
+                OnPropertyChanged(nameof(TienTrangPhuc));
+                OnPropertyChanged(nameof(TienKhac_Thue));
+            }
+        }
+        private double? _tienNha;
+        public double? TienNha { get => _tienNha;
+            set
+            {
+                _tienNha  = value;
+                OnPropertyChanged(nameof(TienNha));
+                OnPropertyChanged(nameof(TienKhac_Thue));
+            }
+        }
 
         public bool? HD_Nha { get; set; }
 
-        public double? TienKhac_Thue { get; set; }
+        private double? _tienKhac_Thue;
 
-        public double? TienKhac_KhongThue { get; set; }
+        public double? TienKhac_Thue
+        {
+            get
+            {
+                _tienKhac_Thue = (TienPhuCap ?? 0)
+                    - (TienAn ?? 0)
+                    - (TienDienThoai ?? 0)
+                    - (TienCongTac ?? 0)
+                    - (TienTrangPhuc ?? 0)
+                    - (TienNha ?? 0)
+                     - (TienKhac_KhongThue ?? 0);
+                return _tienKhac_Thue;
+                   
+            }
+            
+        }
+        private double? _tienKhac_KhongThue;
+        public double? TienKhac_KhongThue { get => _tienKhac_KhongThue;
+            set {
+                _tienKhac_KhongThue = value;
+                OnPropertyChanged(nameof(TienKhac_KhongThue));
+                OnPropertyChanged(nameof(TienKhac_Thue));
+            } }
 
         public double? TienNgoaiGio_Thue { get; set; }
 
@@ -100,5 +181,11 @@ namespace HR_WPF_FOSCO.Models
 
         [StringLength(250)]
         public string? GhiChu { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

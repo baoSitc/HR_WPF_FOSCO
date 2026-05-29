@@ -70,5 +70,8 @@ namespace HR_WPF_FOSCO.Models
         // =====================================================
 
         public double? GiamTru { get; set; }
+        public String? DangSuDung { get; set; } = "Đang sử dụng";
+        public String? HoTenNhanSu { get; set; }
+        public String? MaSoThueNhanSu { get; set; }
     }
 }

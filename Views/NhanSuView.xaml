@@ -621,8 +621,260 @@
 
                     <!-- TAB NPT -->
 
-                    <TabItem Header="Người phụ thuộc"/>
+                    <TabItem Header="Người phụ thuộc">
+                        <Grid>
+                            <!-- Chia grid thành 2 dòng, 1 dòng cho toolbar, 1 dòng cho nội dung -->
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <!--Phần form-->
+                                <Border Background="White" Grid.Column="0"
+                    CornerRadius="8"
+                    Padding="10"
+                    Margin="5"
+                    BorderBrush="ForestGreen"
+                    BorderThickness="1">
 
+                                    <WrapPanel>
+
+                                        <!-- TỪ NGÀY -->
+
+                                        <StackPanel Width="180"  Margin="5">
+
+                                            <DatePicker Height="50"  Margin="0,5,0,0"
+Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+   materialDesign:HintAssist.Hint="Thời gian tính giảm trừ từ tháng"                                                
+ SelectedDate="{Binding SelectedNguoiPhuThuoc.TuNgay, 
+         Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+
+
+                                        </StackPanel>
+
+                                        <!-- ĐẾN NGÀY -->
+
+                                        <StackPanel Width="180"    Margin="5">
+                                            <DatePicker Height="50"  Margin="0,5,0,0"
+                                      Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                         materialDesign:HintAssist.Hint="Thời gian tính giảm trừ đến tháng"            
+                                                        SelectedDateFormat="Short"
+                                         SelectedDate="{Binding SelectedNguoiPhuThuoc.DenNgay,
+                                             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+
+                                        <!-- Họ tên người phụ thuộc -->
+                                        <StackPanel Width="150"   Margin="5">
+                                            <TextBox Height="50"  Margin="0,5,0,0"
+                                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                       materialDesign:HintAssist.Hint="Họ tên người phụ thuộc"
+                                                       Text="{Binding SelectedNguoiPhuThuoc.HoTenNguoiPhuThuoc,
+                                                Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+
+                                        <!--Ngày Sinh -->
+                                        <StackPanel Width="180"   Margin="5">
+                                            <DatePicker Height="50"  Margin="0,5,0,0"
+                                Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                   materialDesign:HintAssist.Hint="Ngày sinh"            
+                                                  SelectedDateFormat="Short"
+                                   SelectedDate="{Binding SelectedNguoiPhuThuoc.NgaySinh,
+                                       Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+
+                                        <!-- Số CCCD -->
+
+                                        <StackPanel Width="150"  Margin="5">
+                                            <TextBox Height="50"  Margin="0,5,0,0"
+                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     materialDesign:HintAssist.Hint="Số CCCD"
+                                     Text="{Binding SelectedNguoiPhuThuoc.SoCMND, Mode=TwoWay,
+                                                UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+
+                                        <!-- Mã số thuế -->
+                                        <StackPanel Width="150" Margin="5">
+                                            <TextBox Height="50"  Margin="0,5,0,0"
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                  materialDesign:HintAssist.Hint="Mã số thuế"
+                  Text="{Binding SelectedNguoiPhuThuoc.MaSoThue, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+
+                                        </StackPanel>
+
+                                        <!-- Quan hệ -->
+                                        <StackPanel Width="150" Margin="5">
+                                            <ComboBox Height="50"  Margin="0,5,0,0"
+                Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                 materialDesign:HintAssist.Hint="Quan hệ"
+                   SelectedValue="{Binding SelectedNguoiPhuThuoc.QuanHe,
+          Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+          SelectedValuePath="Content">
+                                                <ComboBoxItem Content="Con"/>
+                                                <ComboBoxItem Content="Vợ/chồng"/>
+                                                <ComboBoxItem Content="Cha/mẹ"/>
+                                                <ComboBoxItem Content="Khác"/>
+
+                                            </ComboBox>
+                                        </StackPanel>
+                                        <!--đANG SỬ DỤNG-->
+
+                                        <StackPanel Width="150" Margin="5">
+                                            <ComboBox Height="50"  Margin="0,5,0,0"
+                                                      Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                                       materialDesign:HintAssist.Hint="Đang sử dụng"
+                                                         SelectedValue="{Binding SelectedNguoiPhuThuoc.DangSuDung,
+                                                Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                SelectedValuePath="Content">
+                                                <ComboBoxItem Content="Đang sử dụng"/>
+                                                <ComboBoxItem Content="Không sử dụng"/>
+
+                                            </ComboBox>
+                                        </StackPanel>
+
+                                    </WrapPanel>
+
+                                </Border>
+
+
+                                <!--Phần Menu-->
+                                <Border Background="White" Grid.Column="1"
+                                    CornerRadius="8"
+                                    Padding="10"
+                                    Margin="5"
+                                    BorderBrush="ForestGreen"
+                                    BorderThickness="1">
+
+                                    <Grid Margin="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <!-- THÊM -->
+
+                                        <Button Width="100" Grid.Column="0" Grid.Row="0"
+                                            Margin="5"
+                                            Background="#4CAF50"
+                                            Foreground="White"
+                                            Style="{StaticResource MaterialDesignRaisedButton}"
+                                            Click="BtnAddNguoiPhuThuoc_Click">
+
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <materialDesign:PackIcon Kind="Plus"
+                         Width="18"
+                         Height="18"
+                         Margin="0,0,5,0"/>
+
+                                                <TextBlock Text="Thêm"/>
+
+                                            </StackPanel>
+
+                                        </Button>
+
+                                        <!-- XÓA -->
+
+                                        <Button Width="100"  Grid.Column="1" Grid.Row="0"
+                                        Margin="5"
+                                        Background="#F44336"
+                                        Foreground="White"
+                                        Style="{StaticResource MaterialDesignRaisedButton}"
+                                        Click="BtnDeleteNguoiPhuThuoc_Click">
+
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <materialDesign:PackIcon Kind="Delete"
+                         Width="18"
+                         Height="18"
+                         Margin="0,0,5,0"/>
+
+                                                <TextBlock Text="Xóa"/>
+
+                                            </StackPanel>
+
+                                        </Button>
+
+                                        <!-- LƯU -->
+
+                                        <Button Width="100"  Grid.Column="0" Grid.Row="1"
+                                        Margin="5"
+                                        Background="#2196F3"
+                                        Foreground="White"
+                                        Style="{StaticResource MaterialDesignRaisedButton}"
+                                        Click="BtnSaveNguoiPhuThuoc_Click">
+
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <materialDesign:PackIcon Kind="ContentSave"
+                         Width="18"
+                         Height="18"
+                         Margin="0,0,5,0"/>
+
+                                                <TextBlock Text="Lưu"/>
+
+                                            </StackPanel>
+
+                                        </Button>
+                                        <!--Import-->
+                                        <Button Width="100"  Grid.Column="1" Grid.Row="1"
+          Margin="5"
+          Background="#FF9800"
+          Foreground="White"
+          Style="{StaticResource MaterialDesignRaisedButton}"
+          Click="BtnImportNguoiPhuThuoc_Click">
+
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <materialDesign:PackIcon Kind="Import"
+   Width="18"
+   Height="18"
+   Margin="0,0,5,0"/>
+
+                                                <TextBlock Text="Import"/>
+
+                                            </StackPanel>
+
+                                        </Button>
+
+                                    </Grid>
+                                </Border>
+
+                            </Grid>
+
+                            <!--tẠO GRID QUÁ TRÌNH NGƯỜI PHỤ THUỘC-->
+                            <DataGrid Grid.Row="1"
+                                      ItemsSource="{Binding NguoiPhuThuocs}"
+                                      SelectedItem="{Binding SelectedNguoiPhuThuoc, Mode=TwoWay}"
+                                      AutoGenerateColumns="False"
+                                      CanUserAddRows="False"
+                                      CanUserDeleteRows="False"
+                                      IsReadOnly="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Thời gian tính giảm trừ từ tháng" Binding="{Binding TuNgay,StringFormat=MM/yyyy}"/>
+                                    <DataGridTextColumn Header="Thời gian tính giảm trừ đến tháng" Binding="{Binding DenNgay,StringFormat=MM/yyyy}" />
+                                    <DataGridTextColumn Header="Họ tên người phụ thuộc" Binding="{Binding HoTenNguoiPhuThuoc}" />
+                                    <DataGridTextColumn Header="Ngày sinh" Binding="{Binding NgaySinh,StringFormat=dd/MM/yyyy}" />
+
+                                    <DataGridTextColumn Header="Số CCCD" Binding="{Binding SoCMND}" />
+                                    <DataGridTextColumn Header="Mã số thuế" Binding="{Binding MaSoThue}" />
+
+                                    <DataGridTextColumn Header="Quan hệ" Binding="{Binding QuanHe}" />
+
+                                    <DataGridTextColumn Header="Đang sử dụng" Binding="{Binding DangSuDung}" />
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                        </Grid>
+                    </TabItem>
                     <!-- TAB LỊCH SỬ LƯƠNG -->
 
                     <TabItem Header="Lịch sử lương">
@@ -998,15 +1250,6 @@ Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                           Text="{Binding SelectedQuaTrinhPhuCap.TienTrangPhuc,StringFormat={}{0:N2},
                                              Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                         </StackPanel>
-                                        <!-- Tiền Khác Có Thuế -->
-
-                                        <StackPanel Width="250" Margin="5">
-                                            <TextBox Height="50"  Margin="0,5,0,0"
-                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                     materialDesign:HintAssist.Hint="Khác có thuế"
-                                     Text="{Binding SelectedQuaTrinhPhuCap.TienKhac_Thue,StringFormat={}{0:N2},
-                                    Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                                        </StackPanel>
                                         <!-- Tiền Khác Không Có Thuế -->
 
                                         <StackPanel Width="250" Margin="5">
@@ -1016,6 +1259,16 @@ Style="{StaticResource MaterialDesignOutlinedTextBox}"
   Text="{Binding SelectedQuaTrinhPhuCap.TienKhac_KhongThue,StringFormat={}{0:N2},
  Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                         </StackPanel>
+                                        <!-- Tiền Khác Có Thuế -->
+
+                                        <StackPanel Width="250" Margin="5">
+                                            <TextBox Height="50"  Margin="0,5,0,0"
+                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     materialDesign:HintAssist.Hint="Khác có thuế"
+                                     Text="{Binding SelectedQuaTrinhPhuCap.TienKhac_Thue,StringFormat={}{0:N2},
+                                    Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+                                       
 
 
                                         <StackPanel Width="250" Margin="5">
@@ -1177,6 +1430,7 @@ Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                     <DataGridTextColumn Header="Tiền trang phục" Binding="{Binding TienTrangPhuc,StringFormat=N2}" />
                                     <DataGridTextColumn Header="Tiền khác" Binding="{Binding TienKhac_Thue,StringFormat=N2}" />
                                     <DataGridTextColumn Header="Tiền khác không thuế" Binding="{Binding TienKhac_KhongThue ,StringFormat=N2}" />
+                                    <DataGridTextColumn Header="Tiền khác có thuế" Binding="{Binding TienKhac_Thue ,StringFormat=N2}" />
                                     <DataGridCheckBoxColumn Header="Đang sử dụng" Binding="{Binding DangSuDung}" />
 
                                 </DataGrid.Columns>

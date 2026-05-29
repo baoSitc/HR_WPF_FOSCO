@@ -58,6 +58,17 @@ namespace HR_WPF_FOSCO.ViewModels
         //người phụ thuộc
         public ObservableCollection<NguoiPhuThuoc> NguoiPhuThuocs { get; set; }
             = new ObservableCollection<NguoiPhuThuoc>();
+        private NguoiPhuThuoc _selectedNguoiPhuThuoc;
+        public NguoiPhuThuoc SelectedNguoiPhuThuoc
+        {
+            get => _selectedNguoiPhuThuoc;
+            set
+            {
+                _selectedNguoiPhuThuoc = value;
+                OnPropertyChanged(nameof(SelectedNguoiPhuThuoc));
+            }
+        }
+
         //khai báo db context
         private readonly AppDbContext _context = new AppDbContext();
         private string _trangThaiFilter = "Tất cả";
@@ -142,6 +153,7 @@ namespace HR_WPF_FOSCO.ViewModels
                 OnPropertyChanged(nameof(GioiTinhText));
                 LoadQuaTrinhLuong();
                 LoadQuaTrinhPhuCap();
+                LoadNguoiPhuThuoc();
             }
         }
         // =====================================================
@@ -372,6 +384,7 @@ namespace HR_WPF_FOSCO.ViewModels
             {
                 NguoiPhuThuocs.Add(item);
             }
+            OnPropertyChanged(nameof(NguoiPhuThuocs));
         }
 
 
@@ -447,13 +460,18 @@ namespace HR_WPF_FOSCO.ViewModels
         }
         public void DeleteQuaTrinhLuong()
         {
-            if (SelectedQuaTrinhLuong != null)
-            {
-                QuaTrinhLuongs.Remove(SelectedQuaTrinhLuong);
-            }
+            var result = MessageBox.Show("Bạn có chắc chắn muốn xóa quá trình phụ cấp này không?", "Xác nhận xóa", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+                if (SelectedQuaTrinhLuong != null)
+                {
+                    QuaTrinhLuongs.Remove(SelectedQuaTrinhLuong);
+                }
         }
         public void SaveQuaTrinhLuong()
         {
+            if (SelectedQuaTrinhLuong == null)
+                return;
+
             using var db = new AppDbContext();
             //kiểm tra xem có trường hợp  thêm mới nào không, nếu có thì thêm vào db
             bool them = false;
@@ -704,7 +722,8 @@ namespace HR_WPF_FOSCO.ViewModels
                 MaNhanSu = SelectedNhanSu?.MaNhanSu,
                 ID_DonVi = SelectedNhanSu?.ID_DonVi,
                 DangSuDung = true,
-                NgayTao = DateTime.Now
+                NgayTao = DateTime.Now,
+                TienTe = "D"
 
             };
             QuaTrinhPhuCaps.Add(SelectedQuaTrinhPhuCap);
@@ -713,14 +732,22 @@ namespace HR_WPF_FOSCO.ViewModels
         }
         public void DeleteQuaTrinhPhuCap()
         {
-            if (SelectedQuaTrinhPhuCap != null)
+            //thống báo người dùng có chắc chắn muốn xóa không, nếu có thì mới xóa
+            var result = MessageBox.Show("Bạn có chắc chắn muốn xóa quá trình phụ cấp này không?", "Xác nhận xóa", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
             {
-                QuaTrinhPhuCaps.Remove(SelectedQuaTrinhPhuCap);
-                OnPropertyChanged(nameof(SelectedQuaTrinhPhuCap));
+                if (SelectedQuaTrinhPhuCap != null)
+                {
+                    QuaTrinhPhuCaps.Remove(SelectedQuaTrinhPhuCap);
+                    OnPropertyChanged(nameof(SelectedQuaTrinhPhuCap));
+                }
             }
         }
         public void SaveQuaTrinhPhuCap()
         {
+            if (SelectedQuaTrinhPhuCap == null)
+                return;
+
             using var db = new AppDbContext();
             //kiểm tra xem có trường hợp  thêm mới nào không, nếu có thì thêm vào db
             bool them = false;
@@ -760,8 +787,314 @@ namespace HR_WPF_FOSCO.ViewModels
         }
         public void ImportQuaTrinhPhuCap()
         {
-            //tương tự như import quá trình lương nhưng sẽ có nhiều cột hơn, nên sẽ bỏ qua phần import phụ cấp trong quá trình này
-            MessageBox.Show("Chức năng này đang được phát triển!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            try
+            {
+                OpenFileDialog open = new OpenFileDialog();
+
+                open.Filter = "Excel File|*.xlsx;*.xls";
+
+                if (open.ShowDialog() != true)
+                    return;
+
+                using var db = new AppDbContext();
+
+                using var workbook = new XLWorkbook(open.FileName);
+
+                var ws = workbook.Worksheet(1);
+
+                // Bỏ dòng tiêu đề
+                var rows = ws.RowsUsed().Skip(1);
+
+                int success = 0;
+
+                List<string> errors = new();
+
+                foreach (var row in rows)
+                {
+                    try
+                    {
+                        //-----------------------------------
+                        // ĐỌC DỮ LIỆU
+                        //-----------------------------------
+
+                        string maNhanSu = row.Cell(1).GetString().Trim();
+                        int idDonvi = int.Parse(row.Cell(2).GetString().Trim());
+
+                        //string loaiLuong = row.Cell(3).GetString().Trim();
+
+                        string tienTe = row.Cell(3).GetString().Trim();
+                        DateTime tuNgay =
+                           row.Cell(4).GetDateTime();
+
+                        DateTime? denNgay = null;
+
+                        if (!row.Cell(5).IsEmpty())
+                        {
+                            denNgay = row.Cell(5).GetDateTime();
+                        }
+
+                        double tienphucap =
+                            row.Cell(6).GetDouble();
+
+                        double tienan =
+                            row.Cell(7).GetDouble();
+
+                        double tiendienthoai =
+                           row.Cell(8).GetDouble();
+                        double tiencongtac =
+                           row.Cell(9).GetDouble();
+
+                        double tientrangphuc =
+                            row.Cell(10).GetDouble();
+                        double tienkhac_khongthue =
+                           row.Cell(11).GetDouble();
+
+                        double tienkhac_thue =
+                           row.Cell(12).GetDouble();
+
+
+
+                        string ghiChu =
+                            row.Cell(13).GetString();
+
+                        //-----------------------------------
+                        // VALIDATE
+                        //-----------------------------------
+
+                        if (string.IsNullOrWhiteSpace(maNhanSu))
+                        {
+                            errors.Add($"Dòng {row.RowNumber()}: thiếu mã nhân sự");
+                            continue;
+                        }
+
+                        var nhanSu = db.NhanSus
+                            .FirstOrDefault(x => x.MaNhanSu == maNhanSu && x.ID_DonVi == idDonvi);
+
+                        if (nhanSu == null)
+                        {
+                            errors.Add($"Dòng {row.RowNumber()}: không tồn tại nhân sự {maNhanSu}");
+                            continue;
+                        }
+                        //kiểm tra xem đã tồn tại quá trình lương nào có cùng mã nhân sự, đơn vị và từ ngày chưa, nếu có thì cập nhật lại, nếu không thì thêm mới
+                        var existing = db.QuaTrinhPhuCaps
+                        .FirstOrDefault(x =>
+                        x.MaNhanSu == maNhanSu
+                        && x.ID_DonVi == idDonvi
+                        && x.HieuLucTuNgay == tuNgay);
+                        if (existing != null)
+                        {
+
+
+                            existing.TienTe = tienTe;
+
+                            existing.TienPhuCap = tienphucap;
+
+                            existing.TienAn = tienan;
+
+                            existing.TienDienThoai = tiendienthoai;
+
+                            existing.TienCongTac = tiencongtac;
+
+                            existing.TienTrangPhuc = tientrangphuc;
+
+                            //existing.TienKhac_Thue = tienkhac_thue;
+
+                            existing.TienKhac_KhongThue = tienkhac_khongthue;
+
+                            existing.HieuLucDenNgay = denNgay;
+
+                            existing.GhiChu = ghiChu;
+
+                            existing.DangSuDung = true;
+                            db.QuaTrinhPhuCaps.Update(existing);
+                        }
+                        else
+                        // THÊM MỚI
+                        {
+
+
+                            //-----------------------------------
+                            // TẮT DÒNG ĐANG SỬ DỤNG
+                            //-----------------------------------
+
+
+                            var currentLuong = db.QuaTrinhPhuCaps
+                                .Where(x => x.MaNhanSu == maNhanSu
+                                         && x.DangSuDung == true)
+                                .ToList();
+
+                            foreach (var item in currentLuong)
+                            {
+                                item.DangSuDung = false;
+                            }
+
+                            //-----------------------------------
+                            // THÊM LƯƠNG MỚI
+                            //-----------------------------------
+
+                            var newphucap = new QuaTrinhPhuCap
+                            {
+                                MaNhanSu = maNhanSu,
+
+                                ID_DonVi = nhanSu.ID_DonVi,
+
+                                HieuLucTuNgay = tuNgay,
+
+                                HieuLucDenNgay = denNgay,
+
+                                TienTe = tienTe,
+
+
+
+                                TienPhuCap = tienphucap,
+
+                                TienAn = tienan,
+
+                                TienDienThoai = tiendienthoai,
+
+                                TienCongTac = tiencongtac,
+
+                                TienTrangPhuc = tientrangphuc,
+
+
+                                TienKhac_KhongThue = tienkhac_khongthue,
+
+                                GhiChu = ghiChu,
+
+                                DangSuDung = true,
+
+                                NgayTao = DateTime.Now
+                            };
+
+                            db.QuaTrinhPhuCaps.Add(newphucap);
+
+                            success++;
+                        }
+                    }
+                    catch (Exception exRow)
+                    {
+                        errors.Add($"Dòng {row.RowNumber()}: {exRow.Message}");
+                    }
+                }
+
+                //-----------------------------------
+                // SAVE
+                //-----------------------------------
+
+                db.SaveChanges();
+
+                //-----------------------------------
+                // THÔNG BÁO
+                //-----------------------------------
+
+                string message =
+                    $"Import thành công: {success} dòng";
+
+                if (errors.Count > 0)
+                {
+                    message +=
+                        $"\nLỗi: {errors.Count} dòng\n\n";
+
+                    message += string.Join("\n", errors);
+                }
+
+                MessageBox.Show(message,
+                    "Import quá trình phụ cấp",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+
+                //-----------------------------------
+                // RELOAD
+                //-----------------------------------
+
+                LoadQuaTrinhPhuCap();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message,
+                    "Lỗi import",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
+        //=====================================================
+        // NGƯỜI PHỤ THUỘC
+        //=====================================================
+        public void AddNguoiPhuThuoc()
+        {
+            SelectedNguoiPhuThuoc = new NguoiPhuThuoc
+            {
+                MaNhanSu = SelectedNhanSu?.MaNhanSu,
+                ID_DonVi = SelectedNhanSu?.ID_DonVi,
+                DangSuDung = "Đang sử dụng",
+                TuNgay = DateTime.Today,
+                DenNgay = DateTime.Today
+            };
+            NguoiPhuThuocs.Add(SelectedNguoiPhuThuoc);
+            OnPropertyChanged(nameof(SelectedNguoiPhuThuoc));
+        }
+
+        public void DeleteNguoiPhuThuoc()
+        {
+            var result = MessageBox.Show("Bạn có chắc chắn muốn xóa người phụ thuộc này không?", "Xác nhận xóa", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+                if (SelectedNguoiPhuThuoc != null)
+                {
+                    NguoiPhuThuocs.Remove(SelectedNguoiPhuThuoc);
+                }
+            OnPropertyChanged(nameof(SelectedNguoiPhuThuoc));
+        }
+        public void SaveNguoiPhuThuoc()
+        {
+            if (SelectedNguoiPhuThuoc == null)
+                return;
+            using var db = new AppDbContext();
+            //kiểm tra xem có trường hợp  thêm mới nào không, nếu có thì thêm vào db
+            bool them = false;
+            foreach (var item in NguoiPhuThuocs)
+            {
+                if (item.ID == 0)
+                {
+                    them = true;
+                    break;
+                }
+            }
+            if (them)
+            {
+                foreach (var item in NguoiPhuThuocs)
+                {
+                    if (item.ID == 0)
+                        db.NguoiPhuThuocs.Add(item);
+                    else
+                    {
+                        item.DangSuDung = "Đang sử dụng";
+                        db.NguoiPhuThuocs.Update(item);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var item in NguoiPhuThuocs)
+                {
+                    if (SelectedNguoiPhuThuoc.DangSuDung == "Đang sử dụng")
+                        if (item.ID != SelectedNguoiPhuThuoc.ID)
+                            item.DangSuDung = "Không sử dụng";
+
+                }
+            }
+            db.SaveChanges();
+            LoadNguoiPhuThuoc();
+        }
+
+        public void ImportNguoiPhuThuoc()
+        {
+            MessageBox.Show("Chức năng đang được phát triển",
+                    "Thông báo",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+        }
+
+
     }
+
 }
