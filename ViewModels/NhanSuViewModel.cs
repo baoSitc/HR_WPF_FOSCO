@@ -1088,10 +1088,198 @@ namespace HR_WPF_FOSCO.ViewModels
 
         public void ImportNguoiPhuThuoc()
         {
-            MessageBox.Show("Chức năng đang được phát triển",
-                    "Thông báo",
+            try
+            {
+                OpenFileDialog open = new OpenFileDialog();
+
+                open.Filter = "Excel File|*.xlsx;*.xls";
+
+                if (open.ShowDialog() != true)
+                    return;
+
+                using var db = new AppDbContext();
+
+                using var workbook = new XLWorkbook(open.FileName);
+
+                var ws = workbook.Worksheet(1);
+
+                // Bỏ 4 dòng  tiêu đề
+                var rows = ws.RowsUsed().Skip(4);
+
+                int success = 0;
+
+                List<string> errors = new();
+
+                foreach (var row in rows)
+                {
+                    try
+                    {
+                        //-----------------------------------
+                        // ĐỌC DỮ LIỆU
+                        //-----------------------------------
+
+                        string maNhanSu = row.Cell(2).GetString().Trim();
+                        int idDonvi = int.Parse(row.Cell(3).GetString().Trim());
+
+                        //string loaiLuong = row.Cell(3).GetString().Trim();
+
+                        string hotenNguoiNopThue = row.Cell(4).GetString().Trim();
+                        string mstNguoiNopThue = row.Cell(5).GetString().Trim();
+                        string hotenNguoiPhuThuoc = row.Cell(6).GetString().Trim();
+                        DateTime ngaysinhNguoiPhuThuoc = row.Cell(7).GetDateTime();
+                        string mstNguoiPhuThuoc = row.Cell(8).GetString().Trim();
+                        string loaiGiayTo = row.Cell(9).GetString().Trim();
+                        string soGiayTo = row.Cell(10).GetString().Trim();
+                        string quanheVoiNguoiNopThue = row.Cell(11).GetString().Trim();
+
+                        DateTime tuthang =
+                           row.Cell(12).GetDateTime();
+
+                        DateTime? denthang = null;
+
+                        if (!row.Cell(13).IsEmpty())
+                        {
+                            denthang = row.Cell(13).GetDateTime();
+                        }
+
+                       
+
+                        //-----------------------------------
+                        // VALIDATE
+                        //-----------------------------------
+
+                        if (string.IsNullOrWhiteSpace(maNhanSu))
+                        {
+                            errors.Add($"Dòng {row.RowNumber()}: thiếu mã nhân sự");
+                            continue;
+                        }
+
+                        var nhanSu = db.NhanSus
+                            .FirstOrDefault(x => x.MaNhanSu == maNhanSu && x.ID_DonVi == idDonvi);
+
+                        if (nhanSu == null)
+                        {
+                            errors.Add($"Dòng {row.RowNumber()}: không tồn tại nhân sự {maNhanSu}");
+                            continue;
+                        }
+                        //kiểm tra xem đã tồn tại quá trình lương nào có cùng mã nhân sự, đơn vị và từ ngày chưa, nếu có thì cập nhật lại, nếu không thì thêm mới
+                        var existing = db.NguoiPhuThuocs
+                        .FirstOrDefault(x =>
+                        x.MaNhanSu == maNhanSu
+                        && x.ID_DonVi == idDonvi
+                        && x.TuNgay == tuthang);
+                        if (existing != null)
+                        {
+
+
+                            existing.MaNhanSu = maNhanSu;
+
+                            existing.ID_DonVi = idDonvi ;
+
+                            existing.HoTenNhanSu = hotenNguoiNopThue;
+
+                            existing.MaSoThueNhanSu = mstNguoiNopThue;
+
+                            existing.HoTenNguoiPhuThuoc = hotenNguoiPhuThuoc;
+
+                            existing.NgaySinh = ngaysinhNguoiPhuThuoc;
+
+                            //existing.TienKhac_Thue = tienkhac_thue;
+
+                            existing.MaSoThueNhanSu = mstNguoiPhuThuoc;
+
+                            existing.LoaiGiayTo = loaiGiayTo;
+
+                            existing.SoCMND = soGiayTo;
+                            existing.QuanHe = quanheVoiNguoiNopThue;
+                            existing.TuNgay = tuthang;
+                            existing.DenNgay = denthang;
+                            
+                            existing.DangSuDung = "Đang sử dụng";
+                            db.NguoiPhuThuocs.Update(existing);
+                        }
+                        else
+                        // THÊM MỚI
+                        {
+                               
+
+                            //-----------------------------------
+                            // THÊM NGƯỜI PHỤ THUỘC MỚI
+                            //-----------------------------------
+
+                            var newphucap = new NguoiPhuThuoc
+                            {
+                                MaNhanSu = maNhanSu,
+
+                              ID_DonVi = idDonvi,
+
+                               HoTenNhanSu = hotenNguoiNopThue,
+
+                               MaSoThueNhanSu = mstNguoiNopThue,
+
+                               HoTenNguoiPhuThuoc = hotenNguoiPhuThuoc,
+                               
+
+                               NgaySinh = ngaysinhNguoiPhuThuoc,   
+                                LoaiGiayTo = loaiGiayTo,
+                                SoCMND = soGiayTo,
+                                MaSoThue = mstNguoiPhuThuoc,
+                                QuanHe = quanheVoiNguoiNopThue,
+                               TuNgay = tuthang,
+                              DenNgay = denthang,
+                               DangSuDung = "Đang sử dụng",
+                            };
+
+                            db.NguoiPhuThuocs.Add(newphucap);
+
+                            success++;
+                        }
+                    }
+                    catch (Exception exRow)
+                    {
+                        errors.Add($"Dòng {row.RowNumber()}: {exRow.Message}");
+                    }
+                }
+
+                //-----------------------------------
+                // SAVE
+                //-----------------------------------
+
+                db.SaveChanges();
+
+                //-----------------------------------
+                // THÔNG BÁO
+                //-----------------------------------
+
+                string message =
+                    $"Import thành công: {success} dòng";
+
+                if (errors.Count > 0)
+                {
+                    message +=
+                        $"\nLỗi: {errors.Count} dòng\n\n";
+
+                    message += string.Join("\n", errors);
+                }
+
+                MessageBox.Show(message,
+                    "Import NGƯỜI PHỤ THUỘC",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
+
+                //-----------------------------------
+                // RELOAD
+                //-----------------------------------
+
+                LoadQuaTrinhPhuCap();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message,
+                    "Lỗi import",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
 
 
