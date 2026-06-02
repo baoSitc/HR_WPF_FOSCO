@@ -21,7 +21,7 @@ namespace HR_WPF_FOSCO.Services
         {
            
             optionsBuilder.UseSqlServer(
-@"Data Source=192.0.0.251\sqlexpress;
+@"Data Source=115.79.61.102,1433\sqlexpress;
 Initial Catalog=HR_WPF;
 User Id=sa;
 Password=Mclcnnbc@123Encovy;

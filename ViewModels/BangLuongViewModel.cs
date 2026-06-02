@@ -12,9 +12,9 @@ namespace HR_WPF_FOSCO.ViewModels
 {
     class BangLuongViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<BangLuong> BangLuongs { get; set; }=
+        public ObservableCollection<BangLuong> BangLuongs { get; set; } =
             new ObservableCollection<BangLuong>();
-        public ObservableCollection<BangLuongChiTiet> BangLuongChiTiets { get; set; }= 
+        public ObservableCollection<BangLuongChiTiet> BangLuongChiTiets { get; set; } =
             new ObservableCollection<BangLuongChiTiet>();
         public ObservableCollection<DonVi> DonVis { get; set; } = new ObservableCollection<DonVi>();
 
@@ -28,11 +28,11 @@ namespace HR_WPF_FOSCO.ViewModels
         public BangLuongViewModel()
         {
             _context = new AppDbContext();
-            
-          
+
+
             BangLuongChiTiets = new ObservableCollection<BangLuongChiTiet>();
 
-           
+
 
             LoadDonVi();
             LoadBangLuong();
@@ -97,7 +97,7 @@ namespace HR_WPF_FOSCO.ViewModels
             {
                 Thang = Thang,
                 Nam = Nam,
-                SOGB = donVi.TenDonVi + "/" + Thang + Nam+"/01",
+                SOGB = donVi.TenDonVi + "/" + Thang + Nam + "/01",
 
                 ID_DonVi = SelectedDonViID,
 
@@ -178,10 +178,10 @@ namespace HR_WPF_FOSCO.ViewModels
                 _context.QuaTrinhLuongs
                     .Where(x =>
                 x.MaNhanSu == nhanSu.MaNhanSu
-                && x.DangSuDung==true)         
+                && x.DangSuDung == true)
             .FirstOrDefault();
                 string? loaiNV = nhanSu.LoaiNhanVien;
-                string? L_HDLD = nhanSu.L_;
+
                 double luongThucTe =
                          qtl?.LuongThucTe ?? 0;
 
@@ -205,4 +205,5 @@ namespace HR_WPF_FOSCO.ViewModels
             _context.SaveChanges();
             LoadBangLuongChiTiet();
         }
+    }
 }
