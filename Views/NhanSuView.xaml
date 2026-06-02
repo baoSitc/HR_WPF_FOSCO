@@ -262,11 +262,29 @@
 
                 <TabControl Margin="5">
 
+
+
+
                     <!-- ====================================== -->
                     <!-- TAB SƠ YẾU -->
                     <!-- ====================================== -->
 
-                    <TabItem Header="Sơ yếu">
+                    <TabItem Background="Blue">
+                        <TabItem.Header>
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon
+                Kind="Account"
+                Width="18"
+                Height="18"
+                Margin="0,0,5,0"/>
+
+                                <TextBlock Text="Sơ yếu"/>
+
+                            </StackPanel>
+
+                        </TabItem.Header>
 
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
 
@@ -480,7 +498,23 @@
 
                     <!-- TAB LIÊN HỆ -->
 
-                    <TabItem Header="Liên hệ">
+                    <TabItem Background="Green">
+                        <TabItem.Header>
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon
+                Kind="Email"
+                Width="18"
+                Height="18"
+                Margin="0,0,5,0"/>
+
+                                <TextBlock Text="Liên hệ"/>
+
+                            </StackPanel>
+
+                        </TabItem.Header>
+
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
 
                             <Grid Margin="15">
@@ -621,7 +655,23 @@
 
                     <!-- TAB NPT -->
 
-                    <TabItem Header="Người phụ thuộc">
+                    <TabItem Background="Yellow">
+                        <TabItem.Header>
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon
+                Kind="AccountMultiple"
+                Width="18"
+                Height="18"
+                Margin="0,0,5,0"/>
+
+                                <TextBlock Text="Người phụ thuộc"/>
+
+                            </StackPanel>
+
+                        </TabItem.Header>
+
                         <Grid>
                             <!-- Chia grid thành 2 dòng, 1 dòng cho toolbar, 1 dòng cho nội dung -->
                             <Grid.RowDefinitions>
@@ -877,7 +927,23 @@ Style="{StaticResource MaterialDesignOutlinedDatePicker}"
                     </TabItem>
                     <!-- TAB LỊCH SỬ LƯƠNG -->
 
-                    <TabItem Header="Lịch sử lương">
+                    <TabItem Background="red">
+                        <TabItem.Header>
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon
+Kind="History"
+Width="18"
+Height="18"
+Margin="0,0,5,0"/>
+
+                                <TextBlock Text="Lịch sử lương"/>
+
+                            </StackPanel>
+
+                        </TabItem.Header>
+
                         <Grid>
                             <!-- Chia grid thành 2 dòng, 1 dòng cho toolbar, 1 dòng cho nội dung -->
                             <Grid.RowDefinitions>
@@ -1134,7 +1200,24 @@ BorderThickness="1">
 
                     <!-- TAB PHỤ CẤP -->
 
-                    <TabItem Header="Phụ Cấp">
+                    <TabItem Background="DarkCyan">
+                      
+                        <TabItem.Header >
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon
+                Kind="Money100"
+                Width="18"
+                Height="18"
+                Margin="0,0,5,0"/>
+
+                                <TextBlock Text="Phụ cấp" Foreground="Green" />
+
+                            </StackPanel>
+
+                        </TabItem.Header>
+                       
                         <Grid>
                             <!-- Chia grid thành 2 dòng, 1 dòng cho toolbar, 1 dòng cho nội dung -->
                             <Grid.RowDefinitions>

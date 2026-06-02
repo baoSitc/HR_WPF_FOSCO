@@ -14,7 +14,9 @@ namespace HR_WPF_FOSCO.Services
         public DbSet<NhanSu> NhanSus { get; set; }
         public DbSet<QuaTrinhLuong> QuaTrinhLuongs   { get; set; }
         public DbSet<NguoiPhuThuoc> NguoiPhuThuocs { get; set; }
-        public DbSet<QuaTrinhPhuCap> QuaTrinhPhuCaps { get; set; }
+        public DbSet<QuaTrinhPhuCap> QuaTrinhPhuCaps { get; set; }        
+        public DbSet<BangLuong> BangLuongs { get; set; }
+        public DbSet<BangLuongChiTiet> BangLuongChiTiets { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
            

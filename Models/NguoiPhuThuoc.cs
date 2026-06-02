@@ -17,7 +17,7 @@ namespace HR_WPF_FOSCO.Models
         // FOREIGN KEY NHÂN SỰ
         // =====================================================
 
-        [StringLength(10)]
+        [StringLength(20)]
         public string? MaNhanSu { get; set; }
 
         [ForeignKey(nameof(MaNhanSu))]
