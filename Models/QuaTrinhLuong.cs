@@ -50,9 +50,9 @@ namespace HR_WPF_FOSCO.Models
         [StringLength(5)]
         public string? TienTe { get; set; }
 
-        public double? LuongThucTe { get; set; }
+        public decimal? LuongThucTe { get; set; }
 
-        public double? LuongDongBHXH { get; set; }
+        public decimal? LuongDongBHXH { get; set; }
         public bool? DangSuDung {  get; set; }=false;
         [NotMapped]
         public  int Stt { get; set; } = 1;

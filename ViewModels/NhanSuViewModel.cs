@@ -601,9 +601,9 @@ namespace HR_WPF_FOSCO.ViewModels
 
                             existing.TienTe = tienTe;
 
-                            existing.LuongThucTe = luongThucTe;
+                            existing.LuongThucTe =(decimal?) luongThucTe;
 
-                            existing.LuongDongBHXH = luongBHXH;
+                            existing.LuongDongBHXH = (decimal?) luongBHXH;
 
                             existing.DenNgay = denNgay;
 
@@ -648,9 +648,9 @@ namespace HR_WPF_FOSCO.ViewModels
 
                                 TienTe = tienTe,
 
-                                LuongThucTe = luongThucTe,
+                                LuongThucTe = (decimal?) luongThucTe,
 
-                                LuongDongBHXH = luongBHXH,
+                                LuongDongBHXH = (decimal?) luongBHXH,
 
                                 GhiChu = ghiChu,
 
@@ -887,19 +887,19 @@ namespace HR_WPF_FOSCO.ViewModels
 
                             existing.TienTe = tienTe;
 
-                            existing.TienPhuCap = tienphucap;
+                            existing.TienPhuCap = (decimal?) tienphucap;
 
-                            existing.TienAn = tienan;
+                            existing.TienAn = (decimal?) tienan;
 
-                            existing.TienDienThoai = tiendienthoai;
+                            existing.TienDienThoai = (decimal?) tiendienthoai;
 
-                            existing.TienCongTac = tiencongtac;
+                            existing.TienCongTac = (decimal?) tiencongtac;
 
-                            existing.TienTrangPhuc = tientrangphuc;
+                            existing.TienTrangPhuc = (decimal?) tientrangphuc;
 
                             //existing.TienKhac_Thue = tienkhac_thue;
 
-                            existing.TienKhac_KhongThue = tienkhac_khongthue;
+                            existing.TienKhac_KhongThue = (decimal?)    tienkhac_khongthue;
 
                             existing.HieuLucDenNgay = denNgay;
 
@@ -946,18 +946,18 @@ namespace HR_WPF_FOSCO.ViewModels
 
 
 
-                                TienPhuCap = tienphucap,
+                                TienPhuCap = (decimal?) tienphucap,
 
-                                TienAn = tienan,
+                                TienAn = (decimal?) tienan,
 
-                                TienDienThoai = tiendienthoai,
+                                TienDienThoai = (decimal?)          tiendienthoai,
 
-                                TienCongTac = tiencongtac,
+                                TienCongTac = (decimal?) tiencongtac,
 
-                                TienTrangPhuc = tientrangphuc,
+                                TienTrangPhuc = (decimal?) tientrangphuc,
 
 
-                                TienKhac_KhongThue = tienkhac_khongthue,
+                                TienKhac_KhongThue = (decimal?)    tienkhac_khongthue,
 
                                 GhiChu = ghiChu,
 

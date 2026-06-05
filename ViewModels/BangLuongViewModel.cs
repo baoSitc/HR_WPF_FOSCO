@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Math;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using HR_WPF_FOSCO.Models;
 using HR_WPF_FOSCO.Services;
 using System;
@@ -162,13 +163,15 @@ namespace HR_WPF_FOSCO.ViewModels
         //======================================================
         public void TaoBangLuongChiTiet()
         {
+            int tgbh = 26065;
+            int tglg = 26114;
             if (SelectedBangLuong == null)
                 return;
-            var donViID = SelectedBangLuong.ID_DonVi;
-            if (donViID == null)
+            var donVi = _context.DonVis.Find(SelectedDonViID);
+            if (donVi == null)
                 return;
             var nhanSus = _context.NhanSus
-                                  .Where(x => x.ID_DonVi == donViID
+                                  .Where(x => x.ID_DonVi == donVi.ID_DonVi
                                   && x.TrangThai == true)
                                   .ToList();
 
@@ -180,13 +183,51 @@ namespace HR_WPF_FOSCO.ViewModels
                 x.MaNhanSu == nhanSu.MaNhanSu
                 && x.DangSuDung == true)
             .FirstOrDefault();
-                string? loaiNV = nhanSu.LoaiNhanVien;
+                //tìm số người phụ thuộc
+                var soNguoiPhuThuoc = _context.NguoiPhuThuocs
+                    .Where(x => x.MaNhanSu == nhanSu.MaNhanSu
+                    && x.DangSuDung=="Đang sử dụng")
+                    .Count();
+                //tìm phụ cấp
+                var phuCap = _context.QuaTrinhPhuCaps
+                    .Where(x => x.MaNhanSu == nhanSu.MaNhanSu
+                    && x.DangSuDung == true)
+                  .FirstOrDefault();
 
-                double luongThucTe =
+                decimal? luongThucTe =
                          qtl?.LuongThucTe ?? 0;
 
-                double luongBHXH =
+                decimal? luongBHXH =
                     qtl?.LuongDongBHXH ?? 0;
+                decimal? pc_tbh = 0; decimal? pc_tthue = 0;
+                if (phuCap != null) {
+                    if ( phuCap.TienTe == "D" && phuCap.TienPhuCap > 0)
+                    {
+                        pc_tbh = phuCap.TienPhuCap - (phuCap.TienAn - phuCap.TienDienThoai - phuCap.TienCongTac
+                            - phuCap.TienTrangPhuc - phuCap.TienKhac_Thue);
+
+                        pc_tthue = phuCap.TienPhuCap - (phuCap.TienAn>730000? 730000 : phuCap.TienAn - phuCap.TienDienThoai - phuCap.TienCongTac
+                            - phuCap.TienTrangPhuc>416000? 416000 : phuCap.TienTrangPhuc - phuCap.TienKhac_Thue);
+                    }
+                    else if ( phuCap.TienTe == "U" && phuCap.TienPhuCap > 0)
+                    {
+                        pc_tbh = (phuCap.TienPhuCap - (phuCap.TienAn - phuCap.TienDienThoai - phuCap.TienCongTac
+                            - phuCap.TienTrangPhuc - phuCap.TienKhac_Thue))* tgbh;
+
+                        pc_tthue = phuCap.TienPhuCap*tglg - (phuCap.TienAn*tglg>730000? 730000 : phuCap.TienAn*tglg - 
+                            phuCap.TienDienThoai - phuCap.TienCongTac
+                            - phuCap.TienTrangPhuc*tglg>416000? 416000 : phuCap.TienTrangPhuc*tglg - phuCap.TienKhac_Thue*tglg);
+                    }
+                }
+                decimal? lcb = 0;
+                if(qtl?.TienTe == "D")
+                {
+                    lcb = luongThucTe;
+                }
+                else if (qtl?.TienTe == "U")
+                {
+                    lcb = luongThucTe * tglg;
+                } 
 
 
                 var chiTiet = new BangLuongChiTiet
@@ -194,11 +235,33 @@ namespace HR_WPF_FOSCO.ViewModels
                     BangLuongID = SelectedBangLuong.ID,
                     MaNhanSu = nhanSu.MaNhanSu,
                     HoTen = nhanSu.HoTen,
-                    LOAINV = "NV",
-                    L_HDLD = "HDLĐ",
-                    LOAILG = "LG1",
-                    DVT = "D",
-                    DVTPC = "D"
+                    LOAINV = nhanSu.LoaiNhanVien,
+                    L_HDLD = nhanSu.L_HDLD,
+                    LOAILG = donVi.LoaiLuong,   
+                    DVT = qtl?.TienTe ?? "D",
+                    LCV = luongBHXH,
+                    LTLD = luongThucTe, 
+                    DLCV= qtl?.TienTe == "D" ? luongBHXH :luongBHXH* tgbh,
+                    LuongCoBan = qtl?.TienTe == "D" ? luongThucTe : luongThucTe * tglg,
+                    SOPT = soNguoiPhuThuoc,
+                    DVTPC = phuCap?.TienTe ?? "D",
+                    TIENPC = phuCap?.TienPhuCap ?? 0,
+                    AN = phuCap?.TienAn ?? 0,
+                    DT = phuCap?.TienDienThoai ?? 0,
+                    CT = phuCap?.TienCongTac ?? 0,
+                    TP = phuCap?.TienTrangPhuc ?? 0,
+                    KHAC = phuCap?.TienKhac_Thue ?? 0,
+                    KHAC_KTHUE = phuCap?.TienKhac_KhongThue ?? 0,
+                    PC_TBH =Math.Round( pc_tbh ?? 0,0),
+                    PC_TTHUE =Math.Round( pc_tthue ?? 0,0),
+                    TONGLUONG =Math.Round( lcb?? + (phuCap?.TienTe == "D" ? phuCap?.TienPhuCap ?? 0 
+                    : (phuCap?.TienPhuCap ?? 0) * tglg),0),
+
+
+
+
+
+
                 };
                 _context.BangLuongChiTiets.Add(chiTiet);
             }

@@ -53,11 +53,11 @@ namespace HR_WPF_FOSCO.Models
         // PHỤ CẤP - THU NHẬP
         // =====================================================
 
-        public double? TienThuong { get; set; }
+        public decimal? TienThuong { get; set; }
 
-        private double? _tienPhuCap;
+        private decimal? _tienPhuCap;
 
-        public double? TienPhuCap
+        public decimal? TienPhuCap
         {
             get => _tienPhuCap;
 
@@ -71,9 +71,9 @@ namespace HR_WPF_FOSCO.Models
             }
         }
 
-        private double? _tienAn;
+        private decimal? _tienAn;
 
-        public double? TienAn
+        public decimal? TienAn
         {
             get => _tienAn;
 
@@ -84,9 +84,9 @@ namespace HR_WPF_FOSCO.Models
                 OnPropertyChanged(nameof(TienKhac_Thue));
             }
         }
-        private double? _tienDienThoai;
+        private decimal? _tienDienThoai;
 
-        public double? TienDienThoai
+        public decimal? TienDienThoai
         {
             get => _tienDienThoai;
 
@@ -97,8 +97,8 @@ namespace HR_WPF_FOSCO.Models
                 OnPropertyChanged(nameof(TienKhac_Thue));
             }
         }
-        private double? _tienCongTac;
-        public double? TienCongTac { get => _tienCongTac;
+        private decimal? _tienCongTac;
+        public decimal? TienCongTac { get => _tienCongTac;
             set
             {
                 _tienCongTac = value;
@@ -106,8 +106,8 @@ namespace HR_WPF_FOSCO.Models
                 OnPropertyChanged(nameof(TienKhac_Thue));
             }
         }
-        private double? _tienTrangPhuc;
-        public double? TienTrangPhuc { get => _tienTrangPhuc;
+        private decimal? _tienTrangPhuc;
+        public decimal? TienTrangPhuc { get => _tienTrangPhuc;
             set
             {
                 _tienTrangPhuc   = value;
@@ -115,8 +115,8 @@ namespace HR_WPF_FOSCO.Models
                 OnPropertyChanged(nameof(TienKhac_Thue));
             }
         }
-        private double? _tienNha;
-        public double? TienNha { get => _tienNha;
+        private decimal? _tienNha;
+        public decimal? TienNha { get => _tienNha;
             set
             {
                 _tienNha  = value;
@@ -127,9 +127,9 @@ namespace HR_WPF_FOSCO.Models
 
         public bool? HD_Nha { get; set; }
 
-        private double? _tienKhac_Thue;
+        private decimal? _tienKhac_Thue;
 
-        public double? TienKhac_Thue
+        public decimal? TienKhac_Thue
         {
             get
             {
@@ -145,29 +145,29 @@ namespace HR_WPF_FOSCO.Models
             }
             
         }
-        private double? _tienKhac_KhongThue;
-        public double? TienKhac_KhongThue { get => _tienKhac_KhongThue;
+        private decimal? _tienKhac_KhongThue;
+        public decimal? TienKhac_KhongThue { get => _tienKhac_KhongThue;
             set {
                 _tienKhac_KhongThue = value;
                 OnPropertyChanged(nameof(TienKhac_KhongThue));
                 OnPropertyChanged(nameof(TienKhac_Thue));
             } }
 
-        public double? TienNgoaiGio_Thue { get; set; }
+        public decimal? TienNgoaiGio_Thue { get; set; }
 
-        public double? TienNgoaiGio_KhongThue { get; set; }
+        public decimal? TienNgoaiGio_KhongThue { get; set; }
 
         // =====================================================
         // BẢO HIỂM
         // =====================================================
 
-        public double? PhuCapTinhBaoHiem { get; set; }
+        public decimal? PhuCapTinhBaoHiem { get; set; }
 
         // =====================================================
         // TRỢ CẤP
         // =====================================================
 
-        public double? TroCapThoiViec { get; set; }
+        public decimal? TroCapThoiViec { get; set; }
 
         // =====================================================
         // TRẠNG THÁI

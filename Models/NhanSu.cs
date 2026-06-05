@@ -14,6 +14,8 @@ namespace HR_WPF_FOSCO.Models
         [StringLength(10)]
         public string MaNhanSu { get; set; } = string.Empty;
 
+        public string? L_HDLD { get; set; } = null;
+
         // =====================================================
         // FOREIGN KEY
         // =====================================================
