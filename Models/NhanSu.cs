@@ -204,6 +204,7 @@ namespace HR_WPF_FOSCO.Models
         public DateTime? NGAYTAO { get; set; }
         public String? ChucDanhHienTai { get; set; } = null;
         public string? TrinhDoHocVan { get; set; } = null;
+        public String? BaoHiemDacBiet { get; set; } = null;
 
         [NotMapped]
         public string Ten

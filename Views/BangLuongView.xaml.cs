@@ -21,6 +21,12 @@ namespace HR_WPF_FOSCO.Views
         public BangLuongView()
         {
             InitializeComponent();
+            DataContext = new ViewModels.BangLuongViewModel();
+        }
+        void btnXemChiTietBangLuong_Click(object sender, RoutedEventArgs e)
+        {
+            var viewModel = DataContext as ViewModels.BangLuongViewModel;
+            (DataContext as ViewModels.BangLuongViewModel)?.TaoBangLuongChiTiet();
         }
     }
 }

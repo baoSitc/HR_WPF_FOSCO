@@ -11,5 +11,10 @@
                    FontSize="20"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
+        <Button Content="Xem chi tiết bảng lương"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="0,0,0,20"
+                Click="btnXemChiTietBangLuong_Click"/>
     </Grid>
 </UserControl>

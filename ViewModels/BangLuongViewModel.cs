@@ -165,9 +165,21 @@ namespace HR_WPF_FOSCO.ViewModels
         {
             int tgbh = 26065;
             int tglg = 26114;
-            if (SelectedBangLuong == null)
-                return;
-            var donVi = _context.DonVis.Find(SelectedDonViID);
+            int maxBhxh = 46800000;
+            int maxBhtn = 106200000;
+            decimal? tileDVbhxh = 0.175m;
+            decimal? tileDVbhyt = 0.08m;
+            decimal? tileDVbhtn = 0.01m;
+            decimal? tileNVbhxh = 0.085m;
+            decimal? tileNVbhyt = 0.015m;
+            decimal? tileNVbhtn = 0.01m;
+            decimal? DV_BHXH=0; decimal? DV_BHYT = 0; decimal? DV_BHTN = 0;
+
+
+            //if (SelectedBangLuong == null)
+            //    return;
+            //  var donVi = _context.DonVis.Find(SelectedDonViID);
+            var donVi = _context.DonVis.Find(16);
             if (donVi == null)
                 return;
             var nhanSus = _context.NhanSus
@@ -181,7 +193,8 @@ namespace HR_WPF_FOSCO.ViewModels
                 _context.QuaTrinhLuongs
                     .Where(x =>
                 x.MaNhanSu == nhanSu.MaNhanSu
-                && x.DangSuDung == true)
+                && x.DangSuDung == true
+                && nhanSu.TrangThai == true)
             .FirstOrDefault();
                 //tìm số người phụ thuộc
                 var soNguoiPhuThuoc = _context.NguoiPhuThuocs
@@ -194,11 +207,7 @@ namespace HR_WPF_FOSCO.ViewModels
                     && x.DangSuDung == true)
                   .FirstOrDefault();
 
-                decimal? luongThucTe =
-                         qtl?.LuongThucTe ?? 0;
-
-                decimal? luongBHXH =
-                    qtl?.LuongDongBHXH ?? 0;
+              
                 decimal? pc_tbh = 0; decimal? pc_tthue = 0;
                 if (phuCap != null) {
                     if ( phuCap.TienTe == "D" && phuCap.TienPhuCap > 0)
@@ -222,12 +231,42 @@ namespace HR_WPF_FOSCO.ViewModels
                 decimal? lcb = 0;
                 if(qtl?.TienTe == "D")
                 {
-                    lcb = luongThucTe;
+                    lcb = qtl.LuongThucTe==0 ? qtl.LuongDongBHXH : qtl.LuongThucTe;
                 }
                 else if (qtl?.TienTe == "U")
                 {
-                    lcb = luongThucTe * tglg;
+                    lcb =Math.Round((qtl.LuongThucTe == 0 ? qtl.LuongDongBHXH??0 : qtl.LuongThucTe??0) * tglg,0);
                 } 
+
+                decimal? lgBHXH = 0; decimal? lgBHTN = 0;
+                if (nhanSu.L_HDLD == "7" || nhanSu.L_HDLD == "4" || nhanSu.L_HDLD == "5" && nhanSu.LoaiNhanVien == null)
+                { lgBHXH = lgBHTN = 0; }
+                else
+                {
+                    if (qtl?.TienTe == "D")
+                    {
+                        lgBHXH = Math.Min(qtl?.LuongDongBHXH ?? 0+ pc_tbh ?? 0, maxBhxh);
+                        lgBHTN = Math.Min(qtl?.LuongDongBHXH ?? 0+ pc_tbh ?? 0, maxBhtn);
+                    }
+                    else if (qtl?.TienTe == "U")
+                    {
+                        lgBHXH = Math.Min(qtl?.LuongDongBHXH ?? 0*tgbh + pc_tbh ?? 0, maxBhxh);
+                        lgBHTN = Math.Min(qtl?.LuongDongBHXH ?? 0*tgbh + pc_tbh ?? 0, maxBhtn);
+                    }
+                }
+                decimal? lgtNCN = 0;
+                if (nhanSu.LoaiNhanVien != "N")
+                    if (nhanSu.L_HDLD == "3") //loại nhân viên hưu trí loại 3
+                    {
+                        lgtNCN = Math.Round((lcb ?? 0) + (phuCap?.TienTe == "D" ? phuCap?.TienPhuCap ?? 0 : (phuCap?.TienPhuCap ?? 0) * tglg)
+                           + ((lgBHXH ?? 0) * (tileDVbhxh ?? 0 + tileDVbhyt ?? 0 + tileDVbhtn ?? 0)), 0);
+                    }
+                    else
+                        lgtNCN = Math.Round((lcb ?? 0) + (phuCap?.TienTe == "D" ? phuCap?.TienPhuCap ?? 0 :
+                            (phuCap?.TienPhuCap ?? 0) * tglg), 0);
+                //phần đóng bảo hiểm của Đơn vị
+                var tyle = _context.DM_OptionNhanViens.Where(x => x.BaoHiemDacBiet == nhanSu.BaoHiemDacBiet).FirstOrDefault();
+                       
 
 
                 var chiTiet = new BangLuongChiTiet
@@ -239,10 +278,10 @@ namespace HR_WPF_FOSCO.ViewModels
                     L_HDLD = nhanSu.L_HDLD,
                     LOAILG = donVi.LoaiLuong,   
                     DVT = qtl?.TienTe ?? "D",
-                    LCV = luongBHXH,
-                    LTLD = luongThucTe, 
-                    DLCV= qtl?.TienTe == "D" ? luongBHXH :luongBHXH* tgbh,
-                    LuongCoBan = qtl?.TienTe == "D" ? luongThucTe : luongThucTe * tglg,
+                    LCV = qtl?.LuongDongBHXH ?? 0,
+                    LTLD = qtl?.LuongThucTe ?? 0,
+                    DLCV= qtl?.TienTe == "D" ? qtl?.LuongDongBHXH ?? 0 : (qtl?.LuongDongBHXH ?? 0) * tgbh,
+                    LuongCoBan = qtl?.TienTe == "D" ? qtl?.LuongThucTe ?? 0 : (qtl?.LuongThucTe ?? 0) * tglg,
                     SOPT = soNguoiPhuThuoc,
                     DVTPC = phuCap?.TienTe ?? "D",
                     TIENPC = phuCap?.TienPhuCap ?? 0,
@@ -256,6 +295,12 @@ namespace HR_WPF_FOSCO.ViewModels
                     PC_TTHUE =Math.Round( pc_tthue ?? 0,0),
                     TONGLUONG =Math.Round( lcb?? + (phuCap?.TienTe == "D" ? phuCap?.TienPhuCap ?? 0 
                     : (phuCap?.TienPhuCap ?? 0) * tglg),0),
+                    LGBHXH=Math.Round(lgBHXH ?? 0, 0),
+                    LGBHTN = Math.Round(lgBHTN ?? 0, 0),
+                    LGTNCN = lgtNCN ?? 0,
+                    DV_BHXH = Math.Round((lgBHXH ?? 0) * (tileDVbhxh ?? 0), 0),
+
+
 
 
 
