@@ -62,10 +62,23 @@ namespace HR_WPF_FOSCO.Models
         public decimal? DV_BHXH { get; set;} = 0;
         public decimal? DV_BHYT { get; set; } = 0;
         public decimal? DV_BHTN { get; set; } = 0;
+        public decimal? TC_DV
+        {
+            get 
+            { return (DV_BHXH ?? 0) + (DV_BHYT ?? 0) + (DV_BHTN ?? 0) ;
+            }
+        }
         public decimal? NV_BHXH { get; set; } = 0;
         public decimal? NV_BHYT { get; set; } = 0;
         public decimal? NV_BHTN { get; set; } = 0;
-        public decimal? TC_NV { get; set; } = 0;
+        public decimal? TC_NV {
+            // TỔNG CÁC KHOẢN NHÂN VIÊN PHẢI TRẢ
+            get
+            {
+                return (NV_BHXH ?? 0) + (NV_BHYT ?? 0) + (NV_BHTN ?? 0);
+            }
+
+                 } 
         public decimal? Giam_TBT { get; set; } = 0;
         public decimal? ST_NGPT { get;set; } = 0;
         public decimal? TNCN { get;set; } = 0;

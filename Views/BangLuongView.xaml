@@ -3,18 +3,422 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:HR_WPF_FOSCO.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="MÀN HÌNH BẢNG LƯƠNG"
-                   FontSize="20"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"/>
-        <Button Content="Xem chi tiết bảng lương"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                Margin="0,0,0,20"
-                Click="btnXemChiTietBangLuong_Click"/>
+       
+
+            <Grid.RowDefinitions>
+
+                <!-- Toolbar -->
+                <RowDefinition Height="Auto"/>
+
+                <!-- ActionBar -->
+                <RowDefinition Height="Auto"/>
+
+                <!-- Data -->
+                <RowDefinition Height="*"/>
+
+                <!-- Summary -->
+                <RowDefinition Height="Auto"/>
+
+            </Grid.RowDefinitions>
+
+        <!-- Toolbar -->
+        <Grid Grid.Row="0">
+            <GroupBox Header="Thông tin bảng lương"
+   Margin="5" >
+
+                <Grid Margin="10">
+
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="250"/>
+
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="120"/>
+
+                        <ColumnDefinition Width="220"/>
+
+                        <ColumnDefinition Width="*"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <!--==================== THÁNG ====================-->
+
+                    <ComboBox Grid.Column="0"
+           Height="50"
+           Margin="5"
+           Style="{StaticResource MaterialDesignOutlinedComboBox}"
+           materialDesign:HintAssist.Hint="Tháng"
+           ItemsSource="{Binding ThangList}"
+           SelectedItem="{Binding SelectedThang}" />
+
+                    <!--==================== NĂM ====================-->
+
+                    <ComboBox Grid.Column="1"
+           Height="50"
+           Margin="5"
+           Style="{StaticResource MaterialDesignOutlinedComboBox}"
+           materialDesign:HintAssist.Hint="Năm"
+           ItemsSource="{Binding NamList}"
+           SelectedItem="{Binding SelectedNam}" />
+
+                    <!--==================== ĐƠN VỊ ====================-->
+
+                    <ComboBox Grid.Column="2"
+           Height="50"
+           Margin="5"
+           Style="{StaticResource MaterialDesignOutlinedComboBox}"
+           materialDesign:HintAssist.Hint="Đơn vị"
+
+           ItemsSource="{Binding DonVis}"
+
+           DisplayMemberPath="TenHienThi"
+
+           SelectedValuePath="ID_DonVi"
+
+           SelectedValue="{Binding SelectedDonViID}" />
+
+                    <!--==================== TỶ GIÁ LƯƠNG ====================-->
+
+                    <TextBox Grid.Column="3"
+          Height="50"
+          Margin="5"
+          Style="{StaticResource MaterialDesignOutlinedTextBox}"
+
+          materialDesign:HintAssist.Hint="Tỷ giá lương"
+
+          Text="{Binding TyGiaLuong,StringFormat={}{0:N0}}" />
+
+                    <!--==================== TỶ GIÁ BHXH ====================-->
+
+                    <TextBox Grid.Column="4"
+          Height="50"
+          Margin="5"
+          Style="{StaticResource MaterialDesignOutlinedTextBox}"
+
+          materialDesign:HintAssist.Hint="Tỷ giá BHXH"
+
+          Text="{Binding TyGiaBHXH,StringFormat={}{0:N0}}" />
+
+                    <!--==================== SỐ GIẤY BÁO ====================-->
+
+                    <ComboBox Grid.Column="5"
+           Height="50"
+           Margin="5"
+           Style="{StaticResource MaterialDesignOutlinedComboBox}"
+
+           materialDesign:HintAssist.Hint="Số giấy báo"
+
+           ItemsSource="{Binding SoGiayBaos}"
+
+           SelectedItem="{Binding SelectedBangLuong}" />
+
+                    <!--==================== BUTTON ====================-->
+
+                    <StackPanel Grid.Column="6"
+             Orientation="Horizontal"
+             HorizontalAlignment="Right">
+
+                        <!-- TẠO -->
+
+                        <Button Width="140"
+             Height="42"
+             Margin="5"
+
+             Background="#2E7D32"
+             Foreground="White"
+
+             Command="{Binding TaoBangLuongCommand}">
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon Kind="PlusCircle"
+                                      Width="20"
+                                      Height="20"/>
+
+                                <TextBlock Text="Tạo bảng"
+                        Margin="8,0,0,0"/>
+
+                            </StackPanel>
+
+                        </Button>
+
+                        <!-- TÍNH LẠI -->
+
+                        <Button Width="140"
+             Height="42"
+             Margin="5"
+
+             Background="#FB8C00"
+             Foreground="White"
+
+             Command="{Binding TinhLaiCommand}">
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon Kind="Refresh"
+                                      Width="20"
+                                      Height="20"/>
+
+                                <TextBlock Text="Tính lại"
+                        Margin="8,0,0,0"/>
+
+                            </StackPanel>
+
+                        </Button>
+
+                        <!-- KHÓA -->
+
+                        <Button Width="120"
+             Height="42"
+             Margin="5"
+
+             Background="#D32F2F"
+             Foreground="White"
+
+             Command="{Binding KhoaBangLuongCommand}">
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon Kind="Lock"/>
+
+                                <TextBlock Text="Khóa"
+                        Margin="8,0,0,0"/>
+
+                            </StackPanel>
+
+                        </Button>
+
+                    </StackPanel>
+
+                </Grid>
+
+            </GroupBox>
+        </Grid>
+       
+        <!-- ActionBar -->
+        <Grid Grid.Row="1">
+            <GroupBox Header="Chức năng"
+          Margin="10,0,10,5">
+
+                <Grid Margin="8">
+
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <!--===================== DỮ LIỆU =====================-->
+
+                    <StackPanel Grid.Column="0"
+                    Orientation="Horizontal">
+
+                        <Button Width="120"
+                    Height="42"
+                    Margin="5"
+                    Background="#5E35B1"
+                    Foreground="White"
+                    Command="{Binding ImportExcelCommand}">
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon Kind="FileExcel"/>
+
+                                <TextBlock Margin="8,0,0,0"
+                               Text="Import"/>
+
+                            </StackPanel>
+
+                        </Button>
+
+                        <Button Width="120"
+                    Height="42"
+                    Margin="5"
+                    Background="#00897B"
+                    Foreground="White"
+                    Command="{Binding ExportExcelCommand}">
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon Kind="MicrosoftExcel"/>
+
+                                <TextBlock Margin="8,0,0,0"
+                               Text="Xuất Excel"/>
+
+                            </StackPanel>
+
+                        </Button>
+
+                        <Button Width="110"
+                    Height="42"
+                    Margin="5"
+                    Background="#546E7A"
+                    Foreground="White"
+                    Command="{Binding RefreshCommand}">
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon Kind="Refresh"/>
+
+                                <TextBlock Margin="8,0,0,0"
+                               Text="Refresh"/>
+
+                            </StackPanel>
+
+                        </Button>
+
+                    </StackPanel>
+
+                    <!--===================== TÍNH LƯƠNG =====================-->
+
+                    <StackPanel Grid.Column="1"
+                    Orientation="Horizontal">
+
+                        <Button Width="140"
+                    Height="42"
+                    Margin="5"
+                    Background="#FB8C00"
+                    Foreground="White"
+                    Command="{Binding TinhLaiDonViCommand}">
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon Kind="Calculator"/>
+
+                                <TextBlock Margin="8,0,0,0"
+                               Text="Theo đơn vị"/>
+
+                            </StackPanel>
+
+                        </Button>
+
+                        <Button Width="150"
+                    Height="42"
+                    Margin="5"
+                    Background="#F9A825"
+                    Foreground="White"
+                    Command="{Binding TinhLaiNhanVienCommand}">
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <!--<materialDesign:PackIcon Kind="AccountRefresh"/>-->
+
+                                <TextBlock Margin="8,0,0,0"
+                               Text="Theo nhân viên"/>
+
+                            </StackPanel>
+
+                        </Button>
+
+                    </StackPanel>
+
+                    <!--===================== BÁO CÁO =====================-->
+
+                    <StackPanel Grid.Column="2"
+                    Orientation="Horizontal">
+
+                        <Button Width="120"
+                    Height="42"
+                    Margin="5"
+                    Background="#039BE5"
+                    Foreground="White"
+                    Command="{Binding PrintBangLuongCommand}">
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon Kind="Printer"/>
+
+                                <TextBlock Margin="8,0,0,0"
+                               Text="In bảng"/>
+
+                            </StackPanel>
+
+                        </Button>
+
+                        <Button Width="120"
+                    Height="42"
+                    Margin="5"
+                    Background="#00ACC1"
+                    Foreground="White"
+                    Command="{Binding ExportXmlCommand}">
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <!--<materialDesign:PackIcon Kind="FileXml"/>-->
+
+                                <TextBlock Margin="8,0,0,0"
+                               Text="XML"/>
+
+                            </StackPanel>
+
+                        </Button>
+
+                    </StackPanel>
+
+                    <!--===================== QUẢN LÝ =====================-->
+
+                    <StackPanel Grid.Column="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+
+                        <Button Width="110"
+                    Height="42"
+                    Margin="5"
+                    Background="#D32F2F"
+                    Foreground="White"
+                    Command="{Binding KhoaBangLuongCommand}">
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon Kind="Lock"/>
+
+                                <TextBlock Margin="8,0,0,0"
+                               Text="Khóa"/>
+
+                            </StackPanel>
+
+                        </Button>
+
+                        <Button Width="110"
+                    Height="42"
+                    Margin="5"
+                    Background="#43A047"
+                    Foreground="White"
+                    Command="{Binding MoKhoaCommand}">
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <materialDesign:PackIcon Kind="LockOpenVariant"/>
+
+                                <TextBlock Margin="8,0,0,0"
+                               Text="Mở khóa"/>
+
+                            </StackPanel>
+
+                        </Button>
+
+                    </StackPanel>
+
+                </Grid>
+
+            </GroupBox>
+
+        </Grid>
+        <Grid Grid.Row="2">
+
+            
+
+        </Grid>
+
     </Grid>
 </UserControl>
